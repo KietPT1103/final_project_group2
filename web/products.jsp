@@ -36,7 +36,7 @@
     </div>
     <div class="row">
         <div class="col-4">
-            <a href="products_detail.jsp"><img src="./assets/images/product-1.jpg"></a>
+            <a href="productsdetail"><img src="./assets/images/product-1.jpg"></a>
             <h4>Red Printed T-Shirt</h4>
             <div class="rating">
                 <i class="fa fa-star"></i>

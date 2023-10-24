@@ -14,8 +14,8 @@
                     </div>
                     <nav>
                         <ul  id="MenuItems">
-                            <li><a style="text-decoration: none" href="index.jsp">Home</a></li>
-                            <li><a style="text-decoration: none" href="products.jsp">Products</a></li>
+                            <li><a style="text-decoration: none" href="home">Home</a></li>
+                            <li><a style="text-decoration: none" href="products">Products</a></li>
                             <li><a  style="text-decoration: none" style="text-decoration: none" href="">About</a></li>
                             <li><a href="">Contact</a></li>
                                 <c:if test="${sessionScope.account==null}">
