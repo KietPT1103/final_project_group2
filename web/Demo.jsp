@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Demo2
-    Created on : Oct 24, 2023, 10:44:56 PM
+    Document   : Demo
+    Created on : Oct 24, 2023, 11:05:51 PM
     Author     : ADMIN
 --%>
 
@@ -12,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Demo 2 From Cit</h1>
-        <p>abc1234</p>
+        <h1>Hello World!</h1>
     </body>
 </html>
