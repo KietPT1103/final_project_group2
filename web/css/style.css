@@ -265,7 +265,7 @@ ul{
 /* All Products */
 .row-2{
     justify-content: space-between;
-    margin: 100px auto 50px;
+    margin: 20px auto 50px;
 }
 select{
     border: 1px solid #ff523b;
@@ -461,23 +461,43 @@ form a{
     transition: transform 1s;
 }
 
-    /*remember*/
-    .rememberme {
-        position: relative;
-        float: left;
-    }
-    .rememberme .remenberme-divcon {
-        display: inline-block;
-        position: absolute;
-        top: 60%;
-        transform: translateY(-50%);
-    }
-    .remember-label {
-        transition: all 0.5s;
-    }
-    .remember-label:hover {
-        color: red;
-    }
+/*remember*/
+.rememberme {
+    position: relative;
+    float: left;
+}
+.rememberme .remenberme-divcon {
+    display: inline-block;
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+}
+.remember-label {
+    transition: all 0.5s;
+}
+.remember-label:hover {
+    color: red;
+}
+
+/* CSS cho hộp tìm kiếm */
+.searchBox {
+    width: 200px; /* Độ rộng của hộp tìm kiếm */
+    padding: 10px; /* Khoảng cách bên trong hộp tìm kiếm */
+    border: 1px solid #ccc; /* Đường viền của hộp tìm kiếm */
+    border-radius: 5px; /* Độ cong của góc hộp tìm kiếm */
+    font-size: 16px; /* Kích thước phông chữ của hộp tìm kiếm */
+}
+
+/* CSS cho nút tìm kiếm */
+.searchBtn {
+    background-color: #007bff; /* Màu nền của nút tìm kiếm */
+    color: #fff; /* Màu chữ của nút tìm kiếm */
+    padding: 10px 15px; /* Khoảng cách bên trong nút tìm kiếm */
+    border: none; /* Loại bỏ đường viền của nút tìm kiếm */
+    border-radius: 5px; /* Độ cong của góc nút tìm kiếm */
+    font-size: 16px; /* Kích thước phông chữ của nút tìm kiếm */
+    cursor: pointer; /* Biến con trỏ thành một cái tay khi trỏ vào nút tìm kiếm */
+}
 
 /* Media query for menu */
 @media only screen and (max-width: 800px){
