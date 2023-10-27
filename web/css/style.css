@@ -499,6 +499,23 @@ form a{
     cursor: pointer; /* Biến con trỏ thành một cái tay khi trỏ vào nút tìm kiếm */
 }
 
+.buy-confirm {
+    text-align: end;
+}
+
+.buy-confirm form.checkOut input[type="submit"] {
+    background-color: #ff523b; /* Màu nền cho nút "Check Out" */
+    color: white; /* Màu chữ trắng trên nút */
+    padding: 10px 30px; /* Tăng khoảng cách trong nút */
+    border: none; /* Loại bỏ viền */
+    cursor: pointer; /* Biến con trỏ thành hình cửa sổ khi đưa con trỏ vào nút */
+}
+
+.buy-confirm form.checkOut input[type="submit"]:hover {
+    background-color: #ff3322; /* Màu nền thay đổi khi con trỏ đi qua nút */
+}
+
+
 /* Media query for menu */
 @media only screen and (max-width: 800px){
 

@@ -26,7 +26,7 @@
                                 </c:if>
                         </ul>
                     </nav>
-                    <a href="cart.html"><img src="./assets/images/cart.png" width="30px" height="30px"></a>
+                    <a href="Cart"><img src="./assets/images/cart.png" width="30px" height="30px"></a>
                     <img src="./assets/images/menu.png" class="menu-icon" onclick="menutoggle()">
                 </div>
             </div>

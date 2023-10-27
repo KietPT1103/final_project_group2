@@ -7,11 +7,14 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.Cart;
 import model.Product;
 import model.Category;
+import model.Item;
 
 /**
  *
@@ -201,7 +204,7 @@ public class DAO extends DBContext {
      * màn hình product
      *
      * @param txtSearch Từ khóa do người dùng nhập vào
-     * @param index 
+     * @param index
      * @param size
      * @return list chứa số lượng sản phẩm ta muốn
      */
@@ -232,7 +235,64 @@ public class DAO extends DBContext {
         }
         return list;
     }
-    
+
+    /**
+     * Hàm thêm đơn hàng người dùng đặt vào bảng cart, sau đó lưu lại từng
+     * product người dùng dặt vào bảng cartdetail
+     *
+     * @param acc tài khoảng của người dùng
+     * @param cart đơn hàng của người dùng, chứa các item(sản phẩm do người dùng
+     * mua)
+     */
+    public void addOrder(Account acc, Cart cart) {
+        LocalDate curDate = LocalDate.now(); //lấy ngày hiện tại
+        String date = curDate.toString();
+        try {
+            //add order
+            String sql = "INSERT INTO [dbo].[cart]\n"
+                    + "           ([or_date]\n"
+                    + "           ,[username]\n"
+                    + "           ,[or_totalmoney])\n"
+                    + "     VALUES (?,?,?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, date);
+            st.setString(2, acc.getUserName());
+            st.setDouble(3, cart.getTotalMoney());
+            st.executeUpdate();
+
+            //lấy order id vừa add
+            String sql1 = "select top 1 id from [cart] order by id desc";
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            ResultSet rs = st1.executeQuery();
+
+            //add dữ liệu vào bảng order detail
+            if (rs.next()) {
+                int oid = rs.getInt("id");
+                for (Item i : cart.getItems()) {  //Lấy tất cả các item có trong cart hiện tại add dô database
+                    String sql2 = "insert into [cartdetail] values (?,?,?,?)";
+                    PreparedStatement st2 = connection.prepareStatement(sql2);
+                    st2.setInt(1, oid); //Lấy id của 1 order
+                    st2.setString(2, i.getProduct().getId());  // lấy ra id của sản phẩm trong cart đó
+                    st2.setInt(3, i.getQuantity()); //Lấy ra số lượng mua
+                    st2.setDouble(4, i.getPrice()); //Lấy ra tổng giá của sản phẩm mua đó
+                    st2.executeUpdate();
+                }
+            }
+
+            //Cập nhật lại số lượng sản phẩm còn lại trong kho
+            String sql3 = "update product set pro_quantity = pro_quantity - ? where pro_id = ?";
+            PreparedStatement st3 = connection.prepareStatement(sql3);
+            for (Item i : cart.getItems()) {
+                st3.setInt(1, i.getQuantity());
+                st3.setString(2, i.getProduct().getId());
+                st3.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
 //    public static void main(String[] args) {
 //        DAO d = new DAO();
 //        int count = d.countProduct("n");
