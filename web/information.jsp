@@ -37,6 +37,8 @@
                                href="#account-general">General</a>
                             <a class="list-group-item list-group-item-action" data-toggle="list"
                                href="#account-change-password">Change password</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list"
+                               href="#account-change-password">History</a>
                         </div>
                     </div>
                     <div class="col-md-9">

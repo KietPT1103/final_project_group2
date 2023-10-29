@@ -19,6 +19,228 @@ import model.Category;
  */
 public class DAO extends DBContext {
 
+    public Account getAccountByUsername(String userName) {
+        String sql = "SELECT [username]\n"
+                + "      ,[password]\n"
+                + "      ,[fullname]\n"
+                + "      ,[phone]\n"
+                + "      ,[picture]\n"
+                + "      ,[created_at]\n"
+                + "      ,[updated_at]\n"
+                + "      ,[role]\n"
+                + "      ,[Address]\n"
+                + "  FROM [dbo].[account]\n"
+                + "  WHERE [username] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Account acc = new Account(rs.getString("username"), rs.getString("password"), rs.getString("fullname"), rs.getString("phone"), rs.getString("Address"), rs.getString("picture"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getInt("role"));
+                return acc;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public void insertCustomer(Account cus) {
+        String sql = "INSERT INTO account (username, password, fullname, phone, Address)\n"
+                + "VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, cus.getUserName());
+            st.setString(2, cus.getPassword());
+            st.setString(3, cus.getFullName());
+            st.setString(4, cus.getPhone());
+            st.setString(5, cus.getAddress());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void insertAdmin(Account acc) {
+        String sql = "INSERT INTO account (username, password, fullname, phone, Address, role)\n"
+                + "VALUES (?, ?, ?, ?, ?, 1)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, acc.getUserName());
+            st.setString(2, acc.getPassword());
+            st.setString(3, acc.getFullName());
+            st.setString(4, acc.getPhone());
+            st.setString(5, acc.getAddress());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteAccount(String username) {
+        String sql = "DELETE FROM [dbo].[account]\n"
+                + "      WHERE [username] = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<Account> getListOfAccount(int role) {
+        List<Account> list = new ArrayList<Account>();
+        String sql = "SELECT [username]\n"
+                + "      ,[password]\n"
+                + "      ,[fullname]\n"
+                + "      ,[phone]\n"
+                + "      ,[picture]\n"
+                + "      ,[created_at]\n"
+                + "      ,[updated_at]\n"
+                + "      ,[role]\n"
+                + "      ,[Address]\n"
+                + "  FROM [dbo].[account]"
+                + " WHERE [role] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, role);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account acc = new Account(rs.getString("username"), rs.getString("password"), rs.getString("fullname"), rs.getString("phone"), rs.getString("Address"), rs.getString("picture"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getInt("role"));
+                list.add(acc);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public void inserProduct(Product pro) {
+        String sql = "INSERT INTO [dbo].[product]\n"
+                + "           ([pro_id]\n"
+                + "           ,[pro_name]\n"
+                + "           ,[pro_description]\n"
+                + "           ,[pro_price]\n"
+                + "           ,[pro_quantity]\n"
+                + "           ,[pro_picture]\n"
+                + "           ,[cate_id])\n"
+                + "     VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, pro.getId());
+            st.setString(2, pro.getName());
+            st.setString(3, pro.getDescription());
+            st.setLong(4, pro.getPrice());
+            st.setInt(5, pro.getQuantity());
+            st.setString(6, pro.getPicture());
+            st.setString(7, pro.getCatergory().getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void updateProduct(Product pro) {
+        String sql = "UPDATE [dbo].[product]\n"
+                + "   SET [pro_name] = ?\n"
+                + "      ,[pro_description] = ?\n"
+                + "      ,[pro_price] = ?\n"
+                + "      ,[pro_quantity] = ?\n"
+                + "      ,[pro_picture] = ?\n"
+                + "      ,[cate_id] = ?\n"
+                + " WHERE [pro_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, pro.getName());
+            st.setString(2, pro.getDescription());
+            st.setLong(3, pro.getPrice());
+            st.setInt(4, pro.getQuantity());
+            st.setString(5, pro.getPicture());
+            st.setString(6, pro.getCatergory().getId());
+            st.setString(7, pro.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteProduct(String id) {
+        String sql = "DELETE FROM [dbo].[product]\n"
+                + "      WHERE [pro_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void insertCategory(Category cat) {
+        String sql = "INSERT INTO [dbo].[categories]\n"
+                + "           ([cate_id]\n"
+                + "           ,[cate_name]\n"
+                + "           ,[cate_describe])\n"
+                + "     VALUES(?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, cat.getId());
+            st.setString(2, cat.getName());
+            st.setString(3, cat.getDescribe());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteCategory(String id) {
+        String sql = "DELETE FROM [dbo].[categories]\n"
+                + "      WHERE cate_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void updateCategory(Category cate) {
+        String sql = "UPDATE [dbo].[categories]\n"
+                + "   SET [cate_name] = ?\n"
+                + "      ,[cate_describe] = ?\n"
+                + " WHERE cate_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, cate.getName());
+            st.setString(2, cate.getDescribe());
+            st.setString(3, cate.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<Category> getListOfCategory() {
+        List<Category> list = new ArrayList<Category>();
+        String sql = "SELECT [cate_id]\n"
+                + "      ,[cate_name]\n"
+                + "      ,[cate_describe]\n"
+                + "  FROM [dbo].[categories]";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category cate = new Category(rs.getString("cate_id"), rs.getString("cate_name"), rs.getString("cate_describe"));
+                list.add(cate);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public Account checkAccount(String userName, String password) {
         String sql = "SELECT [username]\n"
                 + "      ,[password]\n"
@@ -82,7 +304,7 @@ public class DAO extends DBContext {
      * @return Category theo id
      */
     public Category getCateById(String cate_id) {
-        String sql = "select * from category where cate_id = ?";
+        String sql = "select * from categories where cate_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
 
@@ -143,13 +365,14 @@ public class DAO extends DBContext {
                 + "      ,[pro_quantity]\n"
                 + "      ,[pro_picture]\n"
                 + "      ,[cate_id]\n"
-                + "  FROM [dbo].[product]";
-        if (!id.isEmpty() && !id.equals("")) {
-            sql += "WHERE cate_id = ?";
-        }
+                + "  FROM [dbo].[product]\n";
+
         try {
+            if ((!id.isEmpty() && !id.equals("") && !id.equals("all"))) {
+                sql += "WHERE cate_id = " + id;
+//                st.setString(1, id);
+            }
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
@@ -201,7 +424,7 @@ public class DAO extends DBContext {
      * màn hình product
      *
      * @param txtSearch Từ khóa do người dùng nhập vào
-     * @param index 
+     * @param index
      * @param size
      * @return list chứa số lượng sản phẩm ta muốn
      */
@@ -232,10 +455,10 @@ public class DAO extends DBContext {
         }
         return list;
     }
-    
+
 //    public static void main(String[] args) {
 //        DAO d = new DAO();
-//        int count = d.countProduct("n");
-//        System.out.println("Check: "+ count);
+//        Product pro = d.getProductById("ip001");
+//        System.out.println(pro.getName());
 //    }
 }

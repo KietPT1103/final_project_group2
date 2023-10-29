@@ -43,17 +43,19 @@
                                     <label class="remember-label" style="margin-left: 15px; cursor: pointer" for="checkremenber">remember me</label>
                                 </div>
                                 <button type="submit" class="btn">Login</button>
+                                <p style="color: red">${requestScope.error}</p>
                                 <!--                        <a href="">Forget Password</a>-->
                             </form>
 
-                            <form id="RegForm">
-                                <input class="input-form" type="text" placeholder="Full name">
-                                <input class="input-form" type="number" placeholder="Phone number">
-                                <input class="input-form" type="email" placeholder="Email">
-                                <input class="input-form" type="password" placeholder="Password">
-                                <input class="input-form" type="password" placeholder="Re-enter your Password">
-                                <button type="submit" class="btn">Register</button>
-                                <p style="color: red">${requestScope.error}</p>
+                            <form id="RegForm" action="register" method="post">
+                                <input class="input-form" type="text" placeholder="Full name" name="fullName">
+                                <input class="input-form" type="number" placeholder="Phone number" name="phone">
+                                <input class="input-form" type="email" placeholder="Email" name="userName">
+                                <input class="input-form" type="text" placeholder="Address" name="address">
+                                <input class="input-form" type="password" placeholder="Password" name="password">
+                                <input class="input-form" type="password" placeholder="Re-enter your Password" name="rePassword">
+                                <p style="color: red">${requestScope.error2}</p>
+                                <button type="submit" class="btn">Register</button>           
                             </form>
                         </div>
                     </div>
