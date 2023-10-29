@@ -96,7 +96,7 @@ public class LoginServlet extends HttpServlet {
 
         DAO dao = new DAO();
         Account acount = dao.checkAccount(userName, password);
-
+        
         HttpSession session = request.getSession();
 
         if (acount == null) {

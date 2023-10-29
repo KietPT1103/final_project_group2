@@ -94,14 +94,17 @@ public class CheckOutServlet extends HttpServlet {
         }
         Cart cart = new Cart(txt, list);
         HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("acc");
+        Account a = (Account) session.getAttribute("account");
+        
+        System.out.println("a: " + a);
+                
         if (a == null) {
-            response.sendRedirect("Login.jsp");
+            response.sendRedirect("login");
         } else {
             db.addOrder(a, cart);
             Cookie c = new Cookie("cart", "");
             c.setMaxAge(0);
-            request.getRequestDispatcher("Cart").forward(request, response);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
     }
 

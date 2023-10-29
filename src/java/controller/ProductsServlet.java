@@ -57,7 +57,7 @@ public class ProductsServlet extends HttpServlet {
 
         request.setAttribute("size", n);
         request.setAttribute("data", list);
-        request.getRequestDispatcher("shopping.jsp").forward(request, response);
+        request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
     /**
