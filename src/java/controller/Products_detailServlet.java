@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Product;
 
 /**
  *
@@ -55,6 +57,10 @@ public class Products_detailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String id = request.getParameter("id");
+        DAO dao = new DAO();
+        Product p = dao.getProductById(id);
+        request.setAttribute("p", p);
         request.getRequestDispatcher("products_detail.jsp").forward(request, response);
     } 
 
