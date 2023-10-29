@@ -5,23 +5,22 @@
 package controller;
 
 import dal.DAO;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-import model.Cart;
-import model.Product;
+import model.OrderDetail;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "CartServlet", urlPatterns = {"/Cart"})
-public class CartServlet extends HttpServlet {
+@WebServlet(name = "HistoryDetailServlet", urlPatterns = {"/showHistoryDetail"})
+public class HistoryDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,25 +33,19 @@ public class CartServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO db = new DAO();
-        List<Product> list = db.getAll();
-        Cookie[] arr = request.getCookies();
-        String txt = "";
-        if (arr != null) {
-            for (Cookie o : arr) {
-                if (o.getName().equals("cart")) {
-                    txt += o.getValue();
-                    o.setMaxAge(0);
-                    response.addCookie(o);
-                }
-            }
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet HistoryDetailServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet HistoryDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        Cart cart = new Cart(txt, list);
-        Cookie c = new Cookie("cart", txt);
-        c.setMaxAge(24 * 2 * 60 * 60);
-        response.addCookie(c);
-        request.setAttribute("cart", cart);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,7 +60,14 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String oid_raw = request.getParameter("oid");
+        int oid = Integer.parseInt(oid_raw);
+
+        DAO da = new DAO();
+        List<OrderDetail> od = da.getOrderDetailByOrderId(oid);
+        
+        request.setAttribute("list", od);
+        request.getRequestDispatcher("history_detail.jsp").forward(request, response);
     }
 
     /**

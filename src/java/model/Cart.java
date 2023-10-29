@@ -16,15 +16,14 @@ public class Cart {
     private List<Item> items;
 
     /**
-     *  Tạo đối tượng Cart mới có một arraylist,
-     * tạo mới danh sách giỏ hàng
+     * Tạo đối tượng Cart mới có một arraylist, tạo mới danh sách giỏ hàng
      */
     public Cart() {
         items = new ArrayList<>();
     }
 
     /**
-     * 
+     *
      * @return Trả về toàn bộ giỏ hàng
      */
     public List<Item> getItems() {
@@ -32,17 +31,17 @@ public class Cart {
     }
 
     /**
-     *  
+     *
      * @param id id của sản phẩm
      * @return Số lượng còn lại của sản phẩm trong kho
      */
     public int getQuantityById(String id) {
         return getItemById(id).getQuantity();
     }
-    
+
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      * @return Trả về item đang có trong giỏ hàng
      */
     private Item getItemById(String id) {
