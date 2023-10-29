@@ -26,19 +26,19 @@
         <%@ include file='./components/header.jsp' %>
 
         <!-- Single Products -->
+
         <div class="small-container single-product">
+            <a href="home">< Back to home</a>
             <div class="row">
                 <c:set var="b" value="${requestScope.p}"/>
                 <div class="col-2">
                     <img src="./assets/images/${b.picture}" width="100%" id="ProductImg">
                 </div>
-                
+
                 <div class="col-2">
-                    <a href="home">Home / T-Shirt</a>
                     <h1>${b.name}</h1>
                     <h4>$<fmt:formatNumber pattern="##.##" value="${b.price}"/></h4> 
-                    <input type="number" value="1">
-                    <a href="" class="btn">Add To Cart</a>
+                    <a href="buy?id=${b.id}" class="btn">Add To Cart</a>
 
                     <h3>Product Details <i class="fa fa-indent"></i></h3>
                     <br>
@@ -51,61 +51,30 @@
         <!-- title -->
         <div class="small-container">
             <div class="row row-2">
-                <h2>Related Products</h2>
-                <p>View More</p>
+                <h2>Order Products</h2>
+                <a href="products">View More</a>
             </div>
         </div>
         <!-- Products -->
         <div class="small-container">
             <div class="row">
-                <div class="col-4">
-                    <img src="./assets/images/product-9.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-10.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-11.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-12.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
+                <c:forEach items="${requestScope.random}" var="a">
+                    <c:set value="${a.id}" var="id"/>
+                    <div class="col-4">
+                        <a href="productsdetail?id=${id}">
+                            <img src="./assets/images/${a.picture}">
+                            <h4>${a.name}</h4>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <p>$<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
+                        </a>
+                    </div> 
+                </c:forEach> 
             </div>
         </div>
 

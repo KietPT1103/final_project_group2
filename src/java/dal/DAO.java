@@ -7,7 +7,6 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -41,7 +40,15 @@ public class DAO extends DBContext {
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                Account a = new Account(rs.getString("username"), rs.getString("password"), rs.getString("fullname"), rs.getString("phone"), rs.getString("address"), rs.getString("picture"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getInt("role"));
+                Account a = new Account(rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("fullname"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getString("picture"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at"),
+                        rs.getInt("role"));
                 return a;
             }
         } catch (SQLException e) {
@@ -154,6 +161,36 @@ public class DAO extends DBContext {
                 sql += "WHERE cate_id = ?";
                 st.setString(1, id);
             }
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getString("pro_id"));
+                p.setName(rs.getString("pro_name"));
+                p.setDescription(rs.getString("pro_description"));
+                p.setPrice(rs.getLong("pro_price"));
+                p.setQuantity(rs.getInt("pro_quantity"));
+                p.setPicture(rs.getString("pro_picture"));
+                Categories cate = getCateById(rs.getString("cate_id"));
+                p.setCatergory(cate);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
+        return list;
+    }
+
+    /**
+     * Hàm lấy ra tất cả các product có cate id trùng nhau
+     *
+     * @param id id do người dùng nhập vào
+     * @return list các product có cùng cate_id
+     */
+    public List<Product> getRandomProduct() {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "SELECT TOP 4 * FROM [product] ORDER BY NEWID()";
+            PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
@@ -328,36 +365,36 @@ public class DAO extends DBContext {
      * mua)
      */
     public void addOrder(Account acc, Cart cart) {
-        LocalDate curDate = LocalDate.now(); //lấy ngày hiện tại
-        String date = curDate.toString();
         try {
             //add order
             String sql = "INSERT INTO [dbo].[cart]\n"
-                    + "           ([or_date]\n"
-                    + "           ,[username]\n"
+                    + "           ([username]\n"
                     + "           ,[or_totalmoney])\n"
-                    + "     VALUES (?,?,?)";
+                    + "     VALUES (?,?)";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, date);
-            st.setString(2, acc.getUserName());
-            st.setDouble(3, cart.getTotalMoney());
+            st.setString(1, acc.getUserName());
+            st.setDouble(2, cart.getTotalMoney());
             st.executeUpdate();
 
             //lấy order id vừa add
-            String sql1 = "select top 1 id from [cart] order by id desc";
+            String sql1 = "select top 1 or_id from [cart] order by or_id desc";
             PreparedStatement st1 = connection.prepareStatement(sql1);
             ResultSet rs = st1.executeQuery();
 
             //add dữ liệu vào bảng order detail
             if (rs.next()) {
-                int oid = rs.getInt("id");
+                int oid = rs.getInt("or_id");
                 for (Item i : cart.getItems()) {  //Lấy tất cả các item có trong cart hiện tại add dô database
                     String sql2 = "insert into [cartdetail] values (?,?,?,?)";
                     PreparedStatement st2 = connection.prepareStatement(sql2);
                     st2.setInt(1, oid); //Lấy id của 1 order
+                    System.out.println("oid: " + oid);
                     st2.setString(2, i.getProduct().getId());  // lấy ra id của sản phẩm trong cart đó
+                    System.out.println("pid: " + i.getProduct().getId());
                     st2.setInt(3, i.getQuantity()); //Lấy ra số lượng mua
+                    System.out.println("quantity: " + i.getQuantity());
                     st2.setDouble(4, i.getPrice()); //Lấy ra tổng giá của sản phẩm mua đó
+                    System.out.println("price: " + i.getPrice());
                     st2.executeUpdate();
                 }
             }
@@ -378,6 +415,7 @@ public class DAO extends DBContext {
 
     /**
      * Hàm lấy ra các sản phẩm khách hàng đã mua trong cùng 1 giỏ hàng
+     *
      * @param oid id của giỏ hàng đó
      * @return list chứa tất cả các mặt hàng khách mua
      */

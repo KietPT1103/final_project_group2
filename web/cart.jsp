@@ -65,16 +65,8 @@
                 <c:set var="s" value="30"/>
                 <table>
                     <tr>
-                        <td>Subtotal</td>
-                        <td>$<fmt:formatNumber pattern="##.#" value="${o.totalMoney}"/></td>
-                    </tr>
-                    <tr>
-                        <td>Ship</td>
-                        <td>$<fmt:formatNumber pattern="##.#" value="${s}"/></td>
-                    </tr>
-                    <tr>
                         <td>Total</td>
-                        <td>$<fmt:formatNumber pattern="##.#" value="${(s+o.totalMoney)}"/></td>
+                        <td>$<fmt:formatNumber pattern="##.#" value="${o.totalMoney}"/></td>
                     </tr>
                 </table>
             </div>

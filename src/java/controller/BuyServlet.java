@@ -34,22 +34,38 @@ public class BuyServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BuyServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BuyServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        DAO db = new DAO();
+        List<Product> list = db.getAll();
+        Cookie[] arr = request.getCookies();
+        String txt = "";
+        if (arr != null) {
+            for (Cookie o : arr) {
+                if (o.getName().equals("cart")) {   //Tìm cookie có tên = với cart
+                    txt += o.getValue(); //khi thêm sp mới vào, thì lôi sp cũ ra thêm vào file txt   
+                    o.setMaxAge(0); // sau khi thêm thì xóa cookie cũ
+                    response.addCookie(o);
+                }
+            }
         }
+        String num = "1";
+        String id = request.getParameter("id");    //Lấy id sp
+        if (txt.isEmpty()) {
+            txt = id + ":" + num;
+        } else {
+            txt = txt + "-" + id + ":" + num;
+        }
+
+        Product p = db.getProductById(id);
+
+        Cookie cookie = new Cookie("cart", txt);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(cookie);
+
+        request.setAttribute("p", p);
+        request.getRequestDispatcher("productsdetail").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -75,32 +91,8 @@ public class BuyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO db = new DAO();
-        List<Product> list = db.getAll();
-        Cookie[] arr = request.getCookies();
-        String txt = "";
-        if (arr != null) {
-            for (Cookie o : arr) {
-                if (o.getName().equals("cart")) {   //Tìm cookie có tên = với cart
-                    txt += o.getValue(); //khi thêm sp mới vào, thì lôi sp cũ ra thêm vào file txt   
-                    o.setMaxAge(0); // sau khi thêm thì xóa cookie cũ
-                    response.addCookie(o);
-                }
-            }
-        }
-        String num = request.getParameter("num");  //Lấy số lượng người dùng nhập vào
-        String id = request.getParameter("id");    //Lấy id sp
-        if (txt.isEmpty()) {
-            txt = id + ":" + num;
-        } else {
-            txt = txt + "-" + id + ":" + num;
-        }
+        processRequest(request, response);
 
-        Cookie cookie = new Cookie("cart", txt);
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        response.addCookie(cookie);
-
-        request.getRequestDispatcher("products").forward(request, response);
     }
 
     /**
