@@ -8,15 +8,15 @@ package model;
  *
  * @author ADMIN
  */
-public class Category {
+public class Categories {
     private String id;
     private String name;
     private String describe;
 
-    public Category() {
+    public Categories() {
     }
 
-    public Category(String id, String name, String describe) {
+    public Categories(String id, String name, String describe) {
         this.id = id;
         this.name = name;
         this.describe = describe;

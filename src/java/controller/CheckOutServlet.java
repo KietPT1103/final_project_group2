@@ -5,8 +5,6 @@
 package controller;
 
 import dal.DAO;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -14,14 +12,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import model.Account;
+import model.Cart;
+import model.Product;
 
 /**
  *
- * @author LENOVO
+ * @author ADMIN
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "CheckOutServlet", urlPatterns = {"/checkout"})
+public class CheckOutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +43,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet CheckOutServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CheckOutServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +64,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -75,44 +78,33 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-
-        Cookie cu = new Cookie("cuser", userName);
-        Cookie cp = new Cookie("cpass", password);
-        Cookie cr = new Cookie("crem", remember);
-
-        if (remember != null) {
-            cu.setMaxAge(60 * 60 * 24 * 7);
-            cp.setMaxAge(60 * 60 * 24 * 7);
-            cr.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            cu.setMaxAge(0);
-            cp.setMaxAge(0);
-            cr.setMaxAge(0);
-        }
-
-        response.addCookie(cp);
-        response.addCookie(cu);
-        response.addCookie(cr);
-
-        DAO dao = new DAO();
-        Account acount = dao.checkAccount(userName, password);
-        
-        HttpSession session = request.getSession();
-
-        if (acount == null) {
-            request.setAttribute("error", "Password or uswername is error");
-            request.getRequestDispatcher("account.jsp").forward(request, response);
-        } else {
-            session.setAttribute("account", acount);
-            if (acount.getRole() == 1) {
-                response.sendRedirect("admin");
-            } else {
-                response.sendRedirect("home");
+        //Code lấy cookie
+        DAO db = new DAO();
+        List<Product> list = db.getAll();
+        Cookie[] arr = request.getCookies();
+        String txt = "";
+        if (arr != null) {
+            for (Cookie o : arr) {
+                if (o.getName().equals("cart")) {
+                    txt += o.getValue();
+                    o.setMaxAge(0);
+                    response.addCookie(o);
+                }
             }
-
+        }
+        Cart cart = new Cart(txt, list);
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        
+        System.out.println("a: " + a);
+                
+        if (a == null) {
+            response.sendRedirect("login");
+        } else {
+            db.addOrder(a, cart);
+            Cookie c = new Cookie("cart", "");
+            c.setMaxAge(0);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
     }
 

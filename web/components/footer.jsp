@@ -58,6 +58,15 @@
     }
 </script>
 
+<!-- Thuc hien chuc nang them vao gio hang nhanh san pham co id = "id" va so luong mac dinh la 1 -->
+<script>
+    function buy(id) {
+        var m = document.f.num.value;
+        document.f.action = "buy?id=" + id + "&num=1";
+        document.f.submit();
+    }
+</script>
+
 <script src="./js/main.js"></script>
 
 </body>
