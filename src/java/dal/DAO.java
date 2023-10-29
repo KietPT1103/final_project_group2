@@ -13,8 +13,9 @@ import java.util.List;
 import model.Account;
 import model.Cart;
 import model.Product;
-import model.Category;
+import model.Categories;
 import model.Item;
+import model.OrderDetail;
 
 /**
  *
@@ -62,7 +63,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Category cate = getCateById(rs.getString(7));
+                Categories cate = getCateById(rs.getString(7));
                 Product p = new Product(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -84,8 +85,8 @@ public class DAO extends DBContext {
      * @param cate_id id truyền vào để tìm cate
      * @return Category theo id
      */
-    public Category getCateById(String cate_id) {
-        String sql = "select * from category where cate_id = ?";
+    public Categories getCateById(String cate_id) {
+        String sql = "select * from categories where cate_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
 
@@ -93,7 +94,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Category c = new Category(rs.getString(1), rs.getString(2), rs.getString(3));
+                Categories c = new Categories(rs.getString(1), rs.getString(2), rs.getString(3));
                 return c;
             }
         } catch (SQLException e) {
@@ -115,7 +116,7 @@ public class DAO extends DBContext {
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                Category cate = getCateById(rs.getString(7));
+                Categories cate = getCateById(rs.getString(7));
                 Product p = new Product(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -147,22 +148,22 @@ public class DAO extends DBContext {
                 + "      ,[pro_picture]\n"
                 + "      ,[cate_id]\n"
                 + "  FROM [dbo].[product]";
-        if (!id.isEmpty() && !id.equals("")) {
-            sql += "WHERE cate_id = ?";
-        }
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, id);
+            if (!id.isEmpty() && !id.equals("")) {
+                sql += "WHERE cate_id = ?";
+                st.setString(1, id);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
                 p.setId(rs.getString("pro_id"));
                 p.setName(rs.getString("pro_name"));
                 p.setDescription(rs.getString("pro_description"));
-                p.setPrice(rs.getInt("pro_price"));
+                p.setPrice(rs.getLong("pro_price"));
                 p.setQuantity(rs.getInt("pro_quantity"));
                 p.setPicture(rs.getString("pro_picture"));
-                Category cate = getCateById(rs.getString("cate_id"));
+                Categories cate = getCateById(rs.getString("cate_id"));
                 p.setCatergory(cate);
                 list.add(p);
             }
@@ -221,7 +222,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Category cate = getCateById(rs.getString(8));
+                Categories cate = getCateById(rs.getString(8));
                 Product p = new Product(rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -293,9 +294,35 @@ public class DAO extends DBContext {
         }
     }
 
+    /**
+     * Hàm lấy ra các sản phẩm khách hàng đã mua trong cùng 1 giỏ hàng
+     * @param oid id của giỏ hàng đó
+     * @return list chứa tất cả các mặt hàng khách mua
+     */
+    public List<OrderDetail> getOrderDetailByOrderId(int oid) {
+        List<OrderDetail> list = null;
+        try {
+            String sql = "select * from cartdetail where oid = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, oid);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                OrderDetail od = new OrderDetail(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getLong(4));
+                list.add(od);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
 //    public static void main(String[] args) {
 //        DAO d = new DAO();
-//        int count = d.countProduct("n");
-//        System.out.println("Check: "+ count);
+//        List<Product> list = d.getProductByCategoryId("");
+//        for (Product product : list) {
+//            System.out.println(product.getName());
+//        }
 //    }
 }

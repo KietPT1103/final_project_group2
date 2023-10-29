@@ -100,7 +100,7 @@ public class BuyServlet extends HttpServlet {
         cookie.setMaxAge(7 * 24 * 60 * 60);
         response.addCookie(cookie);
 
-        request.getRequestDispatcher("Cart").forward(request, response);
+        request.getRequestDispatcher("products").forward(request, response);
     }
 
     /**

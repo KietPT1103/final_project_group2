@@ -23,7 +23,7 @@
     <body>
         <!--Header-->
         <%@ include file='./components/header.jsp' %>
-
+        
         <!-- Cart items details -->
         <div class="small-container cart-page">
             <table>
