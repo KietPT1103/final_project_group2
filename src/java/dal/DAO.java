@@ -214,7 +214,89 @@ public class DAO extends DBContext {
         try {
             String sql = "with x as(select ROW_NUMBER() over (order by pro_id) as r\n"
                     + ",* from product where pro_name like ?)\n"
-                    + "select * from x where r between ? * 3-2 and ? * 3";
+                    + "select * from x where r between ? * 8-7 and ? * 8";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + txtSearch + "%");
+            st.setInt(2, index);
+            st.setInt(3, index);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
+                Categories cate = getCateById(rs.getString(8));
+                Product p = new Product(rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getLong(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        cate);
+                list.add(p);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    /**
+     * Select ra một bảng ảo chứa số lượng sản phẩm muốn lấy ra, chứa một cột ảo
+     * x chứa số thứ tự ảo của các prouct vừa select ra. Sau đó chọn ra các sản
+     * phẩm trong khoảng mong muốn rồi luu nó vào list. trả về list đó
+     *
+     * Hàm dùng để lấy ra các sản phẩm có thứ tự theo khoảng nhất định để in ra
+     * màn hình product
+     *
+     * @param txtSearch Từ khóa do người dùng nhập vào
+     * @param index
+     * @param size
+     * @return list chứa số lượng sản phẩm ta muốn
+     */
+    public List<Product> searchAsc(String txtSearch, int index, int size) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "with x as(select ROW_NUMBER() over (ORDER BY pro_price ASC) as r\n"
+                    + ",* from product where pro_name like ?)\n"
+                    + "select * from x where r between ? * 8-7 and ? * 8";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + txtSearch + "%");
+            st.setInt(2, index);
+            st.setInt(3, index);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
+                Categories cate = getCateById(rs.getString(8));
+                Product p = new Product(rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getLong(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        cate);
+                list.add(p);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    /**
+     * Select ra một bảng ảo chứa số lượng sản phẩm muốn lấy ra, chứa một cột ảo
+     * x chứa số thứ tự ảo của các prouct vừa select ra. Sau đó chọn ra các sản
+     * phẩm trong khoảng mong muốn rồi luu nó vào list. trả về list đó
+     *
+     * Hàm dùng để lấy ra các sản phẩm có thứ tự theo khoảng nhất định để in ra
+     * màn hình product
+     *
+     * @param txtSearch Từ khóa do người dùng nhập vào
+     * @param index
+     * @param size
+     * @return list chứa số lượng sản phẩm ta muốn
+     */
+    public List<Product> searchDesc(String txtSearch, int index, int size) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "with x as(select ROW_NUMBER() over (ORDER BY pro_price Desc) as r\n"
+                    + ",* from product where pro_name like ?)\n"
+                    + "select * from x where r between ? * 8-7 and ? * 8";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + txtSearch + "%");
             st.setInt(2, index);

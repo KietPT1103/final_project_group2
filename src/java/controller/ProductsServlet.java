@@ -60,7 +60,6 @@ public class ProductsServlet extends HttpServlet {
         request.getRequestDispatcher("shopping.jsp").forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -68,11 +67,60 @@ public class ProductsServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     *
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String txtSearch = "";
+
+        //Tạo biến index
+        int index = 1;
+
+        DAO db = new DAO();
+
+        // Giá trị tìm kiếm do người dùng nhập vào
+        int count = db.countProduct(txtSearch);
+
+        //set số lượng sản phẩm có thể có cho 1 trang
+        int pageSize = 8;
+
+        //set trang cuối là trang số mấy dựa vào số lượng sp
+        int endPage = 0;
+        endPage = count / pageSize;
+        //nếu số lượng sản phẩm tìm được còn dư ra sẽ tạo thêm 1 trang nữa
+        if (count % pageSize != 0) {
+            endPage++;
+        }
+
+        //tạo list chứa sản phẩm cho từng trang
+        List<Product> list = db.search(txtSearch, index, pageSize);
+
+        Cookie[] arr = request.getCookies();
+        String txt = "";
+        if (arr != null) {
+            for (Cookie c : arr) {
+                if (c.getName().equals("cart")) {
+                    txt += c.getValue();
+                }
+            }
+        }
+        Cart cart = new Cart(txt, list);
+
+        List<Item> listItem = cart.getItems();
+
+        int n = 0;
+        if (listItem != null) {
+            n = listItem.size();
+        } else {
+            n = 0;
+        }
+        request.setAttribute("size", n);
+        request.setAttribute("save", txtSearch);
+        request.setAttribute("index", index);
+        request.setAttribute("data", list);
+        request.setAttribute("end", endPage);
+        request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
     /**

@@ -36,34 +36,43 @@ public class SearchServlet extends HttpServlet {
         try {
             String txtSearch = request.getParameter("search");
             DAO db = new DAO();
-            
+
+            String sort = request.getParameter("sort");
+
             //Tạo biến index
             String indexString = request.getParameter("index");
             int index = Integer.parseInt(indexString);
-            
+
             // Giá trị tìm kiếm do người dùng nhập vào
-            int count = db.countProduct(txtSearch); 
-            
+            int count = db.countProduct(txtSearch);
+
             //set số lượng sản phẩm có thể có cho 1 trang
-            int pageSize = 4;
-            
+            int pageSize = 8;
+
             //set trang cuối là trang số mấy dựa vào số lượng sp
             int endPage = 0;
             endPage = count / pageSize;
             //nếu số lượng sản phẩm tìm được còn dư ra sẽ tạo thêm 1 trang nữa
-            if(count % pageSize != 0){
+            if (count % pageSize != 0) {
                 endPage++;
             }
             
-            //tạo list chứa sản phẩm cho từng trang
-            List<Product> listSearch = db.search(txtSearch, index, pageSize);
-           
-            request.setAttribute("save", txtSearch);
-            request.setAttribute("index", index);
+            List<Product> listSearch;
+                    
+            if (sort.equals("asc")) {
+                listSearch = db.searchAsc(txtSearch, index, pageSize);
+            }else if(sort.equals("desc")){
+                listSearch = db.searchDesc(txtSearch, index, pageSize);
+            }else{             
+                listSearch = db.search(txtSearch, index, pageSize);
+            }           
             
-            request.setAttribute("list", listSearch);
+            request.setAttribute("save", txtSearch);
+            request.setAttribute("sort", sort);
+
+            request.setAttribute("data", listSearch);
             request.setAttribute("end", endPage);
-            request.getRequestDispatcher("search.jsp").forward(request, response);
+            request.getRequestDispatcher("products.jsp").forward(request, response);
         } catch (Exception e) {
         }
     }
