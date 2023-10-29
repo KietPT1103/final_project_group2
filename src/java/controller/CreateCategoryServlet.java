@@ -9,19 +9,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.Category;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "CreateCategoryServlet", urlPatterns = {"/createCategory"})
+public class CreateCategoryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet CreateCategoryServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateCategoryServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +59,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        request.getRequestDispatcher("createCategory.jsp").forward(request, response);
     }
 
     /**
@@ -75,45 +73,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-
-        Cookie cu = new Cookie("cuser", userName);
-        Cookie cp = new Cookie("cpass", password);
-        Cookie cr = new Cookie("crem", remember);
-
-        if (remember != null) {
-            cu.setMaxAge(60 * 60 * 24 * 7);
-            cp.setMaxAge(60 * 60 * 24 * 7);
-            cr.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            cu.setMaxAge(0);
-            cp.setMaxAge(0);
-            cr.setMaxAge(0);
-        }
-
-        response.addCookie(cp);
-        response.addCookie(cu);
-        response.addCookie(cr);
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String describe = request.getParameter("describe");
 
         DAO dao = new DAO();
-        Account acount = dao.checkAccount(userName, password);
-        
-        HttpSession session = request.getSession();
-
-        if (acount == null) {
-            request.setAttribute("error", "Password or uswername is error");
-            request.getRequestDispatcher("account.jsp").forward(request, response);
+        Category cate = dao.getCateById(id);
+        if (cate == null) {
+            Category cNew = new Category(id, name, describe);
+            dao.insertCategory(cNew);
+            response.sendRedirect("brandmanagement");
         } else {
-            session.setAttribute("account", acount);
-            if (acount.getRole() == 1) {
-                response.sendRedirect("admin");
-            } else {
-                response.sendRedirect("home");
-            }
-
+            request.setAttribute("error", "id: " + id + " exitsed!!");
+            request.getRequestDispatcher("createCategory.jsp").forward(request, response);
         }
+
     }
 
     /**

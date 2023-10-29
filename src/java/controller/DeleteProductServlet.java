@@ -9,19 +9,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
+import java.io.File;
+import model.Product;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "DeleteProductServlet", urlPatterns = {"/deleteProduct"})
+public class DeleteProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet DeleteProductServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteProductServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +60,30 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        String id = request.getParameter("id");
+        DAO dao = new DAO();
+        Product pro = dao.getProductById(id);
+
+        // delete file 
+        String fileName = pro.getPicture();
+        String deletePath = getServletContext().getRealPath("assets/picture_pro/") + File.separator + fileName;
+        File fileToDelete = new File(deletePath);
+        try {
+            if (fileToDelete.exists()) {
+                    if (fileToDelete.delete()) {
+                        System.out.println("File deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete file.");
+                    }
+                } else {
+                    System.err.println("File does not exist.");
+                }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        dao.deleteProduct(id);
+        response.sendRedirect("productmangement?id=");
     }
 
     /**
@@ -75,45 +97,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-
-        Cookie cu = new Cookie("cuser", userName);
-        Cookie cp = new Cookie("cpass", password);
-        Cookie cr = new Cookie("crem", remember);
-
-        if (remember != null) {
-            cu.setMaxAge(60 * 60 * 24 * 7);
-            cp.setMaxAge(60 * 60 * 24 * 7);
-            cr.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            cu.setMaxAge(0);
-            cp.setMaxAge(0);
-            cr.setMaxAge(0);
-        }
-
-        response.addCookie(cp);
-        response.addCookie(cu);
-        response.addCookie(cr);
-
-        DAO dao = new DAO();
-        Account acount = dao.checkAccount(userName, password);
-        
-        HttpSession session = request.getSession();
-
-        if (acount == null) {
-            request.setAttribute("error", "Password or uswername is error");
-            request.getRequestDispatcher("account.jsp").forward(request, response);
-        } else {
-            session.setAttribute("account", acount);
-            if (acount.getRole() == 1) {
-                response.sendRedirect("admin");
-            } else {
-                response.sendRedirect("home");
-            }
-
-        }
+        processRequest(request, response);
     }
 
     /**

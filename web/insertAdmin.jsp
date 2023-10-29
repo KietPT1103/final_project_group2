@@ -1,6 +1,6 @@
 <%-- 
-    Document   : admin
-    Created on : Oct 20, 2023, 9:14:31 AM
+    Document   : insertAdmin
+    Created on : Oct 29, 2023, 9:27:54 AM
     Author     : LENOVO
 --%>
 
@@ -8,9 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin</title>
+        <title>Insert admin</title>
+
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -39,6 +39,7 @@
         <!-- icon -->
         <script src="https://kit.fontawesome.com/8143c9cd7e.js" crossorigin="anonymous"></script>
     </head>
+
     <body>
         <div class="container-xxl position-relative bg-white d-flex p-0">
             <!-- Sidebar Start 
@@ -49,16 +50,24 @@
             <div class="content">
                 <!-- Navbar Start -->
                 <%@ include file='admincomponents/adminuser.jsp' %>
-                <!-- Navbar End -->     
+                <!-- Navbar End -->
 
+                <!-- Recent Sales Start -->
                 <div class="container-fluid pt-4 px-4">
-                    <img class="rounded-circle me-lg-2" src="assets/picture/l60Hf-150x150.png" alt="" style="width: 40px; height: 40px;">
-                    <img class="rounded-circle me-lg-2" src="assets/picture/${sessionScope.account.picture}" alt="" style="width: 40px; height: 40px;">
-
-                    <img src="assets/picture/z4824592806885_ad9f9811c0721edca1e5be76a0f3e47a.jpg" alt="alt"/>
-                    <img src="assets/picture/z4824592819097_9e3d232e13f79881f692edecc263be34.jpg" alt="alt"/>
-                </div>             
-
+                    <h1>Register</h1>
+                    <form id="RegForm" action="insertAdmin" method="post">
+                        <input class="input-form" type="text" placeholder="Full name" name="fullName">
+                        <input class="input-form" type="email" placeholder="Email" name="userName">
+                        <input class="input-form" type="number" placeholder="Phone number" name="phone">
+                        <input class="input-form" type="text" placeholder="Address" name="address">
+                        <input class="input-form" type="password" placeholder="Password" name="password">
+                        <input class="input-form" type="password" placeholder="Re-enter your Password" name="rePassword">
+                        <button type="submit" class="btn">Register</button>
+                        <p style="color: red">${requestScope.error}</p>
+                    </form>
+                    <a href="accountManagement">Back</a>
+                </div>
+                <!-- Recent Sales End -->
             </div>
             <!-- Content End -->
 
@@ -79,6 +88,6 @@
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="js/main.js"></script>    
     </body>
 </html>

@@ -1,16 +1,17 @@
 <%-- 
-    Document   : admin
-    Created on : Oct 20, 2023, 9:14:31 AM
+    Document   : createProduct
+    Created on : Oct 28, 2023, 12:33:21 PM
     Author     : LENOVO
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin</title>
+        <title>Create product</title>
+
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -49,16 +50,35 @@
             <div class="content">
                 <!-- Navbar Start -->
                 <%@ include file='admincomponents/adminuser.jsp' %>
-                <!-- Navbar End -->     
+                <!-- Navbar End -->
 
+                <!-- Recent Sales Start -->
                 <div class="container-fluid pt-4 px-4">
-                    <img class="rounded-circle me-lg-2" src="assets/picture/l60Hf-150x150.png" alt="" style="width: 40px; height: 40px;">
-                    <img class="rounded-circle me-lg-2" src="assets/picture/${sessionScope.account.picture}" alt="" style="width: 40px; height: 40px;">
-
-                    <img src="assets/picture/z4824592806885_ad9f9811c0721edca1e5be76a0f3e47a.jpg" alt="alt"/>
-                    <img src="assets/picture/z4824592819097_9e3d232e13f79881f692edecc263be34.jpg" alt="alt"/>
-                </div>             
-
+                    <div class="form_input">
+                        <h1>Add new Category</h1>
+                        <h5 style="color: red">${requestScope.error}</h5>
+                        <form action="createProduct" method="post" enctype="multipart/form-data">
+                            <h5>Enter ID: <input name="id" type="text" placeholder="your ID"></h5>
+                            <h5>Enter name: <input name="name" type="text" placeholder="full name"></h5>
+                            <h5>Enter describe: <input name="describe" type="text" placeholder="text"></h5>
+                            <h5>Enter price: <input name="price" type="number" placeholder="text"></h5>
+                            <h5>Enter quantity: <input name="quantity" type="number" placeholder="text"></h5>
+                            <h5>Enter picture: <input name="picture" type="file" placeholder="text"></h5>
+                            <h5>Enter Category:</h5>
+                            <select name="categoryItem">
+                                <c:forEach items="${requestScope.data}" var="cates" >
+                                    <option value="${cates.id}">${cates.name}</option>
+                                </c:forEach>
+                            </select>
+                            <br/><!-- comment -->
+                            <input class="submit" type="submit" value="SAVE"/>
+                        </form>
+                        <div class="Back-button"> 
+                            <a class="Back-button-text" href="productmangement?id=""">Back</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recent Sales End -->
             </div>
             <!-- Content End -->
 
@@ -79,6 +99,6 @@
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="js/main.js"></script>    
     </body>
 </html>

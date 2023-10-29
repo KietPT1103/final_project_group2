@@ -8,20 +8,26 @@ import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.List;
+import model.Category;
+import model.Product;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "CreateProductServlet", urlPatterns = {"/createProduct"})
+@MultipartConfig
+public class CreateProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +46,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet CreateProductServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateProductServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +67,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        DAO dao = new DAO();
+        List<Category> list = dao.getListOfCategory();
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("createProduct.jsp").forward(request, response);
     }
 
     /**
@@ -75,45 +84,58 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
+        request.setCharacterEncoding("UTF-8");
+        System.out.println("In do post method of Add Image servlet");
 
-        Cookie cu = new Cookie("cuser", userName);
-        Cookie cp = new Cookie("cpass", password);
-        Cookie cr = new Cookie("crem", remember);
+        // xử lý file image
+        Part filePart = request.getPart("picture");
+        String fileName = filePart.getSubmittedFileName();
+        System.out.println(fileName);
 
-        if (remember != null) {
-            cu.setMaxAge(60 * 60 * 24 * 7);
-            cp.setMaxAge(60 * 60 * 24 * 7);
-            cr.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            cu.setMaxAge(0);
-            cp.setMaxAge(0);
-            cr.setMaxAge(0);
+        String uploadPath = getServletContext().getRealPath("assets/picture_pro/") + File.separator + fileName;
+        System.out.println("Upload path: " + uploadPath);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(uploadPath);
+            InputStream is = filePart.getInputStream();
+            byte[] data = new byte[is.available()];
+            is.read(data);
+            fos.write(data);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        response.addCookie(cp);
-        response.addCookie(cu);
-        response.addCookie(cr);
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String describe = request.getParameter("describe");
+        String price_raw = request.getParameter("price");
+        String quantity_raw = request.getParameter("quantity");
+        String categoryItem = request.getParameter("categoryItem");
 
         DAO dao = new DAO();
-        Account acount = dao.checkAccount(userName, password);
-        
-        HttpSession session = request.getSession();
 
-        if (acount == null) {
-            request.setAttribute("error", "Password or uswername is error");
-            request.getRequestDispatcher("account.jsp").forward(request, response);
-        } else {
-            session.setAttribute("account", acount);
-            if (acount.getRole() == 1) {
-                response.sendRedirect("admin");
+        Category cate = dao.getCateById(categoryItem);
+
+        long price;
+        int quantity;
+        try {
+            price = Long.parseLong(price_raw);
+            quantity = Integer.parseInt(quantity_raw);
+            Product proFind = dao.getProductById(id);
+            if (proFind == null) {
+                Product pro = new Product(id, name, describe, price, quantity, fileName, cate);
+                dao.inserProduct(pro);
+                response.sendRedirect("productmangement?id=");
             } else {
-                response.sendRedirect("home");
+                List<Category> list = dao.getListOfCategory();
+                request.setAttribute("data", list);
+                request.setAttribute("error", "id: " + id + " is exitsed!");
+                request.getRequestDispatcher("createProduct.jsp").forward(request, response);
             }
-
+        } catch (Exception e) {
         }
+
     }
 
     /**

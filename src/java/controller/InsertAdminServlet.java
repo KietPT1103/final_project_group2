@@ -9,19 +9,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "InsertAdminServlet", urlPatterns = {"/insertAdmin"})
+public class InsertAdminServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet InsertAdminServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet InsertAdminServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +59,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        request.getRequestDispatcher("insertAdmin.jsp").forward(request, response);
     }
 
     /**
@@ -75,45 +73,31 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("username");
         String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-
-        Cookie cu = new Cookie("cuser", userName);
-        Cookie cp = new Cookie("cpass", password);
-        Cookie cr = new Cookie("crem", remember);
-
-        if (remember != null) {
-            cu.setMaxAge(60 * 60 * 24 * 7);
-            cp.setMaxAge(60 * 60 * 24 * 7);
-            cr.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            cu.setMaxAge(0);
-            cp.setMaxAge(0);
-            cr.setMaxAge(0);
+        String rePassword = request.getParameter("rePassword");
+        if (!password.equals(rePassword)) {
+            request.setAttribute("error", "Re-entered password is incorrect");
+            request.getRequestDispatcher("insertAdmin.jsp").forward(request, response);
         }
 
-        response.addCookie(cp);
-        response.addCookie(cu);
-        response.addCookie(cr);
+        String userName = request.getParameter("userName");
+        String fullName = request.getParameter("fullName");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
 
         DAO dao = new DAO();
-        Account acount = dao.checkAccount(userName, password);
-        
-        HttpSession session = request.getSession();
 
-        if (acount == null) {
-            request.setAttribute("error", "Password or uswername is error");
-            request.getRequestDispatcher("account.jsp").forward(request, response);
+        Account accFind = dao.getAccountByUsername(userName);
+
+        if (accFind == null) {
+            Account account = new Account(userName, password, fullName, phone, address);
+            dao.insertAdmin(account);
+            response.sendRedirect("accountManagement");
         } else {
-            session.setAttribute("account", acount);
-            if (acount.getRole() == 1) {
-                response.sendRedirect("admin");
-            } else {
-                response.sendRedirect("home");
-            }
-
+            request.setAttribute("error", "This account: "+userName+ " is exit!");
+            request.getRequestDispatcher("insertAdmin.jsp").forward(request, response);
         }
+
     }
 
     /**
