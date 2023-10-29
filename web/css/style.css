@@ -499,6 +499,23 @@ form a{
     cursor: pointer; /* Biến con trỏ thành một cái tay khi trỏ vào nút tìm kiếm */
 }
 
+.buy-confirm {
+    text-align: end;
+}
+
+.buy-confirm form.checkOut input[type="submit"] {
+    background-color: #ff523b; /* Màu nền cho nút "Check Out" */
+    color: white; /* Màu chữ trắng trên nút */
+    padding: 10px 30px; /* Tăng khoảng cách trong nút */
+    border: none; /* Loại bỏ viền */
+    cursor: pointer; /* Biến con trỏ thành hình cửa sổ khi đưa con trỏ vào nút */
+}
+
+.buy-confirm form.checkOut input[type="submit"]:hover {
+    background-color: #ff3322; /* Màu nền thay đổi khi con trỏ đi qua nút */
+}
+
+
 /* Media query for menu */
 @media only screen and (max-width: 800px){
 
@@ -552,3 +569,67 @@ form a{
         display: none;
     }
 }
+
+/* selection */
+            .select-input {
+                position: relative;
+                padding: 0 12px;
+                height: 34px;
+                border-radius: 2px;
+                background-color: white;
+                width: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .select-input::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 10px;
+                bottom:-10px;
+                left: 0;
+            }
+            .select-input:hover .select-input__list{
+                display: block;
+            }
+            .select-input__list {
+                position: absolute;
+                top: 80%;
+                right: 0;
+                width: 100%;
+                background-color: rgba(0,0,0,0.04);
+                border-radius: 2px;
+                padding-left:0;
+                list-style: none;
+                display: none;
+                z-index: 1;
+            }
+            .select-input__link {
+                display: block;
+                text-decoration: none;
+                font-size: 1.0rem;
+                color: #333;
+                padding: 12px 16px;
+            }
+            .select-input__link:hover {
+                color: #EE4D2D;
+            }
+            .select-input__label {
+                font-size: 1.0rem;
+            }
+            .select-input {
+                background-color: rgba(0, 0, 0, 0.04);
+                width: 150px;
+                height: 34px;
+            }
+            .header__select-select-icon {
+                margin: 0 4px;
+            }
+            .header__select-select-icon {
+                position: absolute;
+                top: 9px;
+                right: 2px;
+                color: #4a4a4a;
+                margin: 0 12px 0 8px;
+            }

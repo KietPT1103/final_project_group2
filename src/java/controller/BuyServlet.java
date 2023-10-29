@@ -5,25 +5,23 @@
 package controller;
 
 import dal.DAO;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import model.Cart;
-import model.Item;
 import model.Product;
 
 /**
  *
- * @author LENOVO
+ * @author ADMIN
  */
-@WebServlet(name = "ProductsServlet", urlPatterns = {"/products"})
-public class ProductsServlet extends HttpServlet {
+@WebServlet(name = "BuyServlet", urlPatterns = {"/buy"})
+public class BuyServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class ProductsServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProductsServlet</title>");
+            out.println("<title>Servlet BuyServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ProductsServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BuyServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,60 +57,11 @@ public class ProductsServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     *
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String txtSearch = "";
-
-        //Tạo biến index
-        int index = 1;
-
-        DAO db = new DAO();
-
-        // Giá trị tìm kiếm do người dùng nhập vào
-        int count = db.countProduct(txtSearch);
-
-        //set số lượng sản phẩm có thể có cho 1 trang
-        int pageSize = 8;
-
-        //set trang cuối là trang số mấy dựa vào số lượng sp
-        int endPage = 0;
-        endPage = count / pageSize;
-        //nếu số lượng sản phẩm tìm được còn dư ra sẽ tạo thêm 1 trang nữa
-        if (count % pageSize != 0) {
-            endPage++;
-        }
-
-        //tạo list chứa sản phẩm cho từng trang
-        List<Product> list = db.search(txtSearch, index, pageSize);
-
-        Cookie[] arr = request.getCookies();
-        String txt = "";
-        if (arr != null) {
-            for (Cookie c : arr) {
-                if (c.getName().equals("cart")) {
-                    txt += c.getValue();
-                }
-            }
-        }
-        Cart cart = new Cart(txt, list);
-
-        List<Item> listItem = cart.getItems();
-
-        int n = 0;
-        if (listItem != null) {
-            n = listItem.size();
-        } else {
-            n = 0;
-        }
-        request.setAttribute("size", n);
-        request.setAttribute("save", txtSearch);
-        request.setAttribute("index", index);
-        request.setAttribute("data", list);
-        request.setAttribute("end", endPage);
-        request.getRequestDispatcher("products.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -126,7 +75,32 @@ public class ProductsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        DAO db = new DAO();
+        List<Product> list = db.getAll();
+        Cookie[] arr = request.getCookies();
+        String txt = "";
+        if (arr != null) {
+            for (Cookie o : arr) {
+                if (o.getName().equals("cart")) {   //Tìm cookie có tên = với cart
+                    txt += o.getValue(); //khi thêm sp mới vào, thì lôi sp cũ ra thêm vào file txt   
+                    o.setMaxAge(0); // sau khi thêm thì xóa cookie cũ
+                    response.addCookie(o);
+                }
+            }
+        }
+        String num = request.getParameter("num");  //Lấy số lượng người dùng nhập vào
+        String id = request.getParameter("id");    //Lấy id sp
+        if (txt.isEmpty()) {
+            txt = id + ":" + num;
+        } else {
+            txt = txt + "-" + id + ":" + num;
+        }
+
+        Cookie cookie = new Cookie("cart", txt);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(cookie);
+
+        request.getRequestDispatcher("Cart").forward(request, response);
     }
 
     /**
