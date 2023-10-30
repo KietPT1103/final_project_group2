@@ -12,8 +12,9 @@ import java.util.List;
 import model.Account;
 import model.Cart;
 import model.Product;
-import model.Categories;
+import model.Category;
 import model.Item;
+import model.Order;
 import model.OrderDetail;
 
 /**
@@ -21,6 +22,108 @@ import model.OrderDetail;
  * @author LENOVO
  */
 public class DAO extends DBContext {
+
+    public void deleteOrderByOrderId(int OrderId) {
+        String sqlCart = "DELETE FROM [dbo].[cart]\n"
+                + "      WHERE [or_id] = ?";
+        String sqlCartDetail = "DELETE FROM [dbo].[cartdetail]\n"
+                + "      WHERE [or_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sqlCartDetail);
+            st.setInt(1, OrderId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            PreparedStatement st = connection.prepareStatement(sqlCart);
+            st.setInt(1, OrderId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void UpdateNodication(int OrderId) {
+        String sql = "UPDATE cart\n"
+                + "SET nodication = 1\n"
+                + "WHERE [or_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, OrderId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<OrderDetail> getListOfOrderDetailByOrderId(int orderId) {
+        List<OrderDetail> list = new ArrayList<OrderDetail>();
+        String sql = "SELECT [or_id]\n"
+                + "      ,[pro_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[price]\n"
+                + "  FROM [dbo].[cartdetail]\n"
+                + "  WHERE [or_id]= ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, orderId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product pro = getProductById(rs.getString("pro_id"));
+                OrderDetail ord = new OrderDetail(rs.getInt("or_id"), pro, rs.getInt("quantity"), rs.getLong("price"));
+                list.add(ord);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public Order getOrderByOrderId(int OrderId) {
+        String sql = "SELECT [or_id]\n"
+                + "      ,[or_date]\n"
+                + "      ,[username]\n"
+                + "      ,[or_totalmoney]\n"
+                + "      ,[nodication]\n"
+                + "  FROM [dbo].[cart]\n"
+                + "  WHERE [or_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, OrderId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Order order = new Order(rs.getInt("or_id"), rs.getDate("or_date"), rs.getString("username"), rs.getLong("or_totalmoney"), rs.getBoolean("nodication"));
+                return order;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Order> getListOfOrder() {
+        List<Order> list = new ArrayList<Order>();
+        String sql = "SELECT [or_id]\n"
+                + "      ,[or_date]\n"
+                + "      ,[username]\n"
+                + "      ,[or_totalmoney]\n"
+                + "      ,[nodication]\n"
+                + "  FROM [dbo].[cart]";
+//                + "  WHERE [nodication] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setBoolean(1, notifition);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Order order = new Order(rs.getInt("or_id"), rs.getDate("or_date"), rs.getString("username"), rs.getLong("or_totalmoney"), rs.getBoolean("nodication"));
+                list.add(order);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public Account getAccountByUsername(String userName) {
         String sql = "SELECT [username]\n"
@@ -292,7 +395,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Categories cate = getCateById(rs.getString(7));
+                Category cate = getCateById(rs.getString(7));
                 Product p = new Product(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -324,7 +427,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Categories c = new Categories(rs.getString(1), rs.getString(2), rs.getString(3));
+                Category c = new Category(rs.getString(1), rs.getString(2), rs.getString(3));
                 return c;
             }
         } catch (SQLException e) {
@@ -346,7 +449,7 @@ public class DAO extends DBContext {
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                Categories cate = getCateById(rs.getString(7));
+                Category cate = getCateById(rs.getString(7));
                 Product p = new Product(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -394,7 +497,7 @@ public class DAO extends DBContext {
                 p.setPrice(rs.getLong("pro_price"));
                 p.setQuantity(rs.getInt("pro_quantity"));
                 p.setPicture(rs.getString("pro_picture"));
-                Categories cate = getCateById(rs.getString("cate_id"));
+                Category cate = getCateById(rs.getString("cate_id"));
                 p.setCatergory(cate);
                 list.add(p);
             }
@@ -424,7 +527,7 @@ public class DAO extends DBContext {
                 p.setPrice(rs.getLong("pro_price"));
                 p.setQuantity(rs.getInt("pro_quantity"));
                 p.setPicture(rs.getString("pro_picture"));
-                Categories cate = getCateById(rs.getString("cate_id"));
+                Category cate = getCateById(rs.getString("cate_id"));
                 p.setCatergory(cate);
                 list.add(p);
             }
@@ -483,7 +586,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Categories cate = getCateById(rs.getString(8));
+                Category cate = getCateById(rs.getString(8));
                 Product p = new Product(rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -524,7 +627,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Categories cate = getCateById(rs.getString(8));
+                Category cate = getCateById(rs.getString(8));
                 Product p = new Product(rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -538,7 +641,6 @@ public class DAO extends DBContext {
         }
         return list;
     }
-
 
     /**
      * Select ra một bảng ảo chứa số lượng sản phẩm muốn lấy ra, chứa một cột ảo
@@ -566,7 +668,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Các tham số phải trùng tên với các cột trong bảng trong SQL, nếu không không tạo được
-                Categories cate = getCateById(rs.getString(8));
+                Category cate = getCateById(rs.getString(8));
                 Product p = new Product(rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -638,28 +740,28 @@ public class DAO extends DBContext {
         }
     }
 
-    /**
-     * Hàm lấy ra các sản phẩm khách hàng đã mua trong cùng 1 giỏ hàng
-     *
-     * @param oid id của giỏ hàng đó
-     * @return list chứa tất cả các mặt hàng khách mua
-     */
-    public List<OrderDetail> getOrderDetailByOrderId(int oid) {
-        List<OrderDetail> list = null;
-        try {
-            String sql = "select * from cartdetail where oid = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, oid);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                OrderDetail od = new OrderDetail(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getInt(3),
-                        rs.getLong(4));
-                list.add(od);
-            }
-        } catch (Exception e) {
-        }
-        return list;
-    }
+//    /**
+//     * Hàm lấy ra các sản phẩm khách hàng đã mua trong cùng 1 giỏ hàng
+//     *
+//     * @param oid id của giỏ hàng đó
+//     * @return list chứa tất cả các mặt hàng khách mua
+//     */
+//    public List<OrderDetail> getOrderDetailByOrderId(int oid) {
+//        List<OrderDetail> list = null;
+//        try {
+//            String sql = "select * from cartdetail where oid = ?";
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setInt(1, oid);
+//            ResultSet rs = st.executeQuery();
+//            while (rs.next()) {
+//                OrderDetail od = new OrderDetail(rs.getInt(1),
+//                        rs.getString(2),
+//                        rs.getInt(3),
+//                        rs.getLong(4));
+//                list.add(od);
+//            }
+//        } catch (Exception e) {
+//        }
+//        return list;
+//    }
 }

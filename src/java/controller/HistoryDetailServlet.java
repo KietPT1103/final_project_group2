@@ -64,7 +64,7 @@ public class HistoryDetailServlet extends HttpServlet {
         int oid = Integer.parseInt(oid_raw);
 
         DAO da = new DAO();
-        List<OrderDetail> od = da.getOrderDetailByOrderId(oid);
+        List<OrderDetail> od = da.getListOfOrderDetailByOrderId(oid);
         
         request.setAttribute("list", od);
         request.getRequestDispatcher("history_detail.jsp").forward(request, response);

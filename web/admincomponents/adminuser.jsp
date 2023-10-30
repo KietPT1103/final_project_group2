@@ -58,25 +58,19 @@
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="fa fa-bell me-lg-2"></i>
-                <span class="d-none d-lg-inline-flex">Notificatin</span>
+                <span class="d-none d-lg-inline-flex">Order notificatin</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                <a href="#" class="dropdown-item">
-                    <h6 class="fw-normal mb-0">Profile updated</h6>
-                    <small>15 minutes ago</small>
-                </a>
-                <hr class="dropdown-divider">
-                <a href="#" class="dropdown-item">
-                    <h6 class="fw-normal mb-0">New user added</h6>
-                    <small>15 minutes ago</small>
-                </a>
-                <hr class="dropdown-divider">
-                <a href="#" class="dropdown-item">
-                    <h6 class="fw-normal mb-0">Password changed</h6>
-                    <small>15 minutes ago</small>
-                </a>
-                <hr class="dropdown-divider">
-                <a href="#" class="dropdown-item text-center">See all notifications</a>
+                <c:forEach items="${sessionScope.listOrder}" var="order">
+                    <c:if test="${!order.nodication}">
+                        <a href="orderDetailManagement?orderId=${order.id}" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Order : ${order.userName}</h6>
+                            <small>Total: ${order.totalMoney}</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                    </c:if>
+                </c:forEach>
+                <a href="orderManagement" class="dropdown-item text-center">See all order</a>
             </div>
         </div>
         <div class="nav-item dropdown">
