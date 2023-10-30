@@ -13,6 +13,7 @@ import model.Account;
 import model.Cart;
 import model.Product;
 import model.Category;
+import model.History;
 import model.Item;
 import model.Order;
 import model.OrderDetail;
@@ -715,13 +716,9 @@ public class DAO extends DBContext {
                     String sql2 = "insert into [cartdetail] values (?,?,?,?)";
                     PreparedStatement st2 = connection.prepareStatement(sql2);
                     st2.setInt(1, oid); //Lấy id của 1 order
-                    System.out.println("oid: " + oid);
                     st2.setString(2, i.getProduct().getId());  // lấy ra id của sản phẩm trong cart đó
-                    System.out.println("pid: " + i.getProduct().getId());
                     st2.setInt(3, i.getQuantity()); //Lấy ra số lượng mua
-                    System.out.println("quantity: " + i.getQuantity());
                     st2.setDouble(4, i.getPrice()); //Lấy ra tổng giá của sản phẩm mua đó
-                    System.out.println("price: " + i.getPrice());
                     st2.executeUpdate();
                 }
             }
@@ -740,6 +737,36 @@ public class DAO extends DBContext {
         }
     }
 
+    public List<History> getHistoryByUsername(String username) throws SQLException {
+        List<History> list = new ArrayList<>();
+        String sql = "select * from cart c\n"
+                + "join cartdetail cd on c.or_id = cd.or_id\n"
+                + "where username = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, username);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            Product p = getProductById(rs.getString("pro_id"));
+            History h = new History(rs.getInt("or_id"),
+                    rs.getString("or_date"),
+                    rs.getString("username"),
+                    p,
+                    rs.getInt("quantity"),
+                    rs.getLong("price"),
+                    rs.getBoolean("nodication"));
+            list.add(h);
+        }
+        return list;
+    }
+
+//    public static void main(String[] args) throws SQLException {
+//        DAO d = new DAO();
+//        List<History> li = d.getHistoryByUsername("exampleUser@gmail.com");
+//        System.out.println("Li: "+ li);
+//        for (History history : li) {
+//            System.out.println("H: "+ history.getId());
+//        }
+//    }
 //    /**
 //     * Hàm lấy ra các sản phẩm khách hàng đã mua trong cùng 1 giỏ hàng
 //     *

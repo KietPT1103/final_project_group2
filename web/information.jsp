@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +40,7 @@
                             <a class="list-group-item list-group-item-action" data-toggle="list"
                                href="#account-change-password">Change password</a>
                             <a class="list-group-item list-group-item-action" data-toggle="list"
-                               href="#account-change-password">History</a>
+                               href="#history-order">History</a>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -100,6 +102,40 @@
                                     <div class="text-right mt-3">
                                         <button style="width: 8em" type="submit" class="btn btn-primary">Save</button>&nbsp;
                                         <button style="width: 9em" type="reset" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="tab-pane fade" id="history-order">
+                                <div class="card-body pb-2">
+                                    <div class="table-container">
+                                        <table class="custom-table">
+                                            <thead class="table-header">
+                                                <tr>
+                                                    <th>ID Order</th>
+                                                    <th>Product</th>
+                                                    <th>Product Picture</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Date</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:set var="tt" value="0"/>
+                                                <c:forEach items="${requestScope.history}" var="i">
+                                                    <c:set var="tt" value="${tt+1}"/>
+                                                    <tr>
+                                                        <td>${tt}</td>
+                                                        <td>${i.product.name}</td>
+                                                        <td><img src="assets/picture_pro/${i.product.picture}" alt="Order ${tt}" width="150px" height="150px"></td>
+                                                        <td>${i.quantity}</td>
+                                                        <td>$<fmt:formatNumber pattern="##.##" value="${(i.price * i.quantity)}"/></td>
+                                                        <td>${i.date}</td>
+                                                        <td><a href="productsdetail?id=${i.product.id}">See product</a></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </form>
