@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,6 +55,76 @@
                 <!-- Recent Sales Start -->
                 <div class="container-fluid pt-4 px-4">
                     <h1>Content</h1>
+                    <div class="col-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">The order has not been processed yet</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Order date</th>
+                                            <th scope="col">Zip</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:set var="i" value="0"/>
+                                        <c:forEach items="${sessionScope.listOrder}" var="order">
+                                            <c:if test="${!order.nodication}">
+                                                <tr>
+                                                    <c:set var="i" value="${i+1}"/>
+                                                    <th scope="row">${i}</th>
+                                                    <td>${order.userName}</td>
+                                                    <td>${order.date}</td>
+                                                    <td>${order.id}</td>
+                                                    <td>${order.totalMoney}</td>
+                                                    <td><a href="orderDetailManagement?orderId=${order.id}">Browse products</a></td>
+                                                </tr>   
+                                            </c:if>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">Successful order</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Order date</th>
+                                            <th scope="col">Zip</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:set var="i" value="0"/>
+                                        <c:forEach items="${sessionScope.listOrder}" var="order">
+                                            <c:if test="${order.nodication}">
+                                                <tr>
+                                                    <c:set var="i" value="${i+1}"/>
+                                                    <th scope="row">${i}</th>
+                                                    <td>${order.userName}</td>
+                                                    <td>${order.date}</td>
+                                                    <td>${order.id}</td>
+                                                    <td>${order.totalMoney}</td>
+                                                    <td><a href="viewOrderDetail?orderId=${order.id}">View</a></td>
+                                                </tr>   
+                                            </c:if>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Recent Sales End -->
             </div>

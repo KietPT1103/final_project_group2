@@ -13,17 +13,19 @@ import java.util.Date;
 public class Order {
     private int id;
     private Date date;
-    private int customId;
-    private double totalMoney;
+    private String userName;
+    private long totalMoney;
+    private boolean nodication;
 
     public Order() {
     }
 
-    public Order(int id, Date date, int customId, double totalMoney) {
+    public Order(int id, Date date, String userName, long totalMoney, boolean nodication) {
         this.id = id;
         this.date = date;
-        this.customId = customId;
+        this.userName = userName;
         this.totalMoney = totalMoney;
+        this.nodication = nodication;
     }
 
     public int getId() {
@@ -42,21 +44,28 @@ public class Order {
         this.date = date;
     }
 
-    public int getCustomId() {
-        return customId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCustomId(int customId) {
-        this.customId = customId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public double getTotalMoney() {
+    public long getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(double totalMoney) {
+    public void setTotalMoney(long totalMoney) {
         this.totalMoney = totalMoney;
     }
-    
-    
+
+    public boolean isNodication() {
+        return nodication;
+    }
+
+    public void setNodication(boolean nodication) {
+        this.nodication = nodication;
+    }
+ 
 }

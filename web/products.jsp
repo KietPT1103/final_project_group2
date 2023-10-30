@@ -61,7 +61,7 @@ Author     : ADMIN
                     <c:set value="${a.id}" var="id"/>
                     <div class="col-4">
                         <a href="productsdetail?id=${id}">
-                            <img src="./assets/images/${a.picture}">
+                            <img src="./assets/picture_pro/${a.picture}">
                             <h4>${a.name}</h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>

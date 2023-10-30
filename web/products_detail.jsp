@@ -28,11 +28,11 @@
         <!-- Single Products -->
 
         <div class="small-container single-product">
-            <a href="home">< Back to home</a>
+            <a href="products">< Back</a>
             <div class="row">
                 <c:set var="b" value="${requestScope.p}"/>
                 <div class="col-2">
-                    <img src="./assets/images/${b.picture}" width="100%" id="ProductImg">
+                    <img src="./assets/picture_pro/${b.picture}" width="100%" id="ProductImg">
                 </div>
 
                 <div class="col-2">
@@ -62,7 +62,7 @@
                     <c:set value="${a.id}" var="id"/>
                     <div class="col-4">
                         <a href="productsdetail?id=${id}">
-                            <img src="./assets/images/${a.picture}">
+                            <img src="./assets/picture_pro/${a.picture}">
                             <h4>${a.name}</h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>

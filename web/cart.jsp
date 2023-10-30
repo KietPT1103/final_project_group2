@@ -38,7 +38,7 @@
                     <tr>
                         <td>
                             <div class="cart-info">
-                                <img src="./assets/images/${i.product.picture}" alt="${p.picture}">
+                                <img src="./assets/picture_pro/${i.product.picture}" alt="${p.picture}">
                                 <div>
                                     <p>${i.product.name}</p>
                                     <small>Price: $<fmt:formatNumber pattern="##.#" value="${i.price}"/></small>
