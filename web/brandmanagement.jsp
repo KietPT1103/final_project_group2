@@ -42,7 +42,7 @@
         <!-- xử lý thông báo của delete -->
         <script>
             function doDelete(id) {
-                if (confirm('Do you want to delete this id: ' + id)) {
+                if (confirm('If you want to delete this brand, All product of this brand will delete. Do you want to delete this id: ' + id)) {
                     window.location = "deleteCategory?id=" + id;
                 }
             }
