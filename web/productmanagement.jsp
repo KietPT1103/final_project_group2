@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Product management</title>
-        
+
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -83,15 +83,15 @@
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead>
                                     <tr class="text-dark">
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Picture</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Insert</th>
+                                        <th style="font-size: 20px" scope="col">No.</th>
+                                        <th style="font-size: 20px" scope="col">Id</th>
+                                        <th style="font-size: 20px" scope="col">Name</th>
+                                        <th style="font-size: 20px" scope="col">Description</th>
+                                        <th style="font-size: 20px" scope="col">Price</th>
+                                        <th style="font-size: 20px" scope="col">Quantity</th>
+                                        <th style="font-size: 20px" scope="col">Picture</th>
+                                        <th style="font-size: 20px" scope="col">Category</th>
+                                        <th style="font-size: 20px" scope="col">Insert</th>
                                     </tr>
                                 </thead>
                                 <tbody>

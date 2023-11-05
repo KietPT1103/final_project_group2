@@ -28,31 +28,27 @@
         <!-- Single Products -->
 
         <div class="small-container single-product">
-            <a href="products">< Back</a>
+            <a href="products" class="lower_border" style="color:red;">Back</a>
             <div class="row">
                 <c:set var="b" value="${requestScope.p}"/>
                 <div class="col-2">
                     <img src="./assets/picture_pro/${b.picture}" width="100%" id="ProductImg">
                 </div>
-
                 <div class="col-2">
                     <h1>${b.name}</h1>
-                    <h4>$<fmt:formatNumber pattern="##.##" value="${b.price}"/></h4> 
+                    <h4>Price: $<fmt:formatNumber pattern="##.##" value="${b.price}"/></h4> 
                     <a href="buy?id=${b.id}" class="btn">Add To Cart</a>
-
                     <h3>Product Details <i class="fa fa-indent"></i></h3>
                     <br>
                     <p>${b.description}</p>
                 </div>              
-
             </div>
         </div>
-
         <!-- title -->
         <div class="small-container">
-            <div class="row row-2">
+            <div class="boder3px row row-2" style="">
                 <h2>Order Products</h2>
-                <a href="products">View More</a>
+                <a href="products" class="lower_border">View More</a>
             </div>
         </div>
         <!-- Products -->
@@ -71,7 +67,7 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <p>$<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
+                            <p>Price : $<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
                         </a>
                     </div> 
                 </c:forEach> 

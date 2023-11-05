@@ -23,60 +23,76 @@
     <body>
         <!--Header-->
         <%@ include file='./components/header.jsp' %>
-        
-        <!-- Cart items details -->
+
+        <!-- Cart items details -->                       
         <div class="small-container cart-page">
-            <table>
-                <tr>
+            <table class="cart-page__item">
+                <tr style="border-radius: 3px;">
                     <th>Product</th>
                     <th>Quantity</th>
                     <th>Subtotal</th>
                 </tr>
-                <c:set var="o" value="${requestScope.cart}"/>
-                <c:set var="tt" value="0"/>
-                <c:forEach items="${o.items}" var="i">
-                    <tr>
-                        <td>
-                            <div class="cart-info">
-                                <img src="./assets/picture_pro/${i.product.picture}" alt="${p.picture}">
-                                <div>
-                                    <p>${i.product.name}</p>
-                                    <small>Price: $<fmt:formatNumber pattern="##.#" value="${i.price}"/></small>
-                                    <br>
-                                    <form action="process" method="post">
-                                        <input type="hidden" name="id" value="${i.product.id}">
-                                        <input type="submit" value="Return Item"/>
-                                    </form>  
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <button>
-                                <a href="process?num=-1&id=${i.product.id}">-</a>
-                                ${i.quantity}
-                                <a href="process?num=1&id=${i.product.id}">+</a>
-                            </button>
-                        </td>
-                        <td><fmt:formatNumber pattern="##.#" value="${(i.price*i.quantity)}"/></td>
-                    </tr>
-                </c:forEach>
-            </table>
-            <div class="total-price">
-                <c:set var="s" value="30"/>
-                <table>
-                    <tr>
-                        <td>Total</td>
-                        <td>$<fmt:formatNumber pattern="##.#" value="${o.totalMoney}"/></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="buy-confirm">
-                <form class="checkOut" action="checkout" method="post">
-                    <input type="submit" value="Buy"/>
-                </form>
-            </div>
-        </div>
-
+                <c:choose>
+                    <c:when test="${(not empty requestScope.cart)}">
+                        <c:set var="o" value="${requestScope.cart}"/>
+                        <c:set var="tt" value="0"/>
+                        <c:forEach items="${o.items}" var="i">
+                            <!--san pham-->              
+                            <tr style="border-bottom: 1px solid #999999;">
+                                <td style="padding: 22px 0px;">
+                                    <div class="cart-info">
+                                        <img src="./assets/picture_pro/${i.product.picture}" alt="${p.picture}">
+                                        <div>
+                                            <p>${i.product.name}</p>
+                                            <small>Price: $<fmt:formatNumber pattern="##.#" value="${i.price}"/></small><br>
+                                            <form action="process" method="post">
+                                                <input type="hidden" name="id" value="${i.product.id}">
+                                                <input class="input__cart" type="submit" value="Return"/>
+                                            </form>  
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="cart-button">
+                                        <a href="process?num=-${(i.product.quantity) > 1?1:0}&id=${i.product.id}"
+                                           ${(i.quantity <= 1) ? 'style="display:none;"':''}> - </a>
+                                        ${i.quantity}
+                                        
+                                        <a href="process?num=1&id=${i.product.id}">+</a>
+                                    </button>
+                                </td>
+                                <td><fmt:formatNumber pattern="##.#" value="${(i.price*i.quantity)}"/></td>
+                            </tr>
+                        </c:forEach> 
+                    </table>
+                    <div class="total-price">
+                        <c:set var="s" value="30"/>
+                        <table>
+                            <tr>
+                                <td>Total</td>
+                                <td>$<fmt:formatNumber pattern="##.#" value="${o.totalMoney}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="buy-confirm">
+                        <form class="checkOut" action="checkout" method="post">
+                            <input type="submit" value="Buy"/>
+                        </form>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="small-container cart-page">
+                    <table class="no-cart cart-page__item">
+                        <tr>
+                            <td>
+                                <img src="./assets/banner/empty-cart_pro.png" alt="Mô tả ảnh">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <!--Footer-->
         <%@ include file='./components/footer.jsp' %>
     </body>

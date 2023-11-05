@@ -79,7 +79,6 @@ public class CartProcessServlet extends HttpServlet {
         Cart cart = new Cart(txt, list);
         String num_raw = request.getParameter("num");
         String id = request.getParameter("id");
-
 //        System.out.println("ID: " + id);
         int num = 0;
         try {
@@ -114,8 +113,10 @@ public class CartProcessServlet extends HttpServlet {
         Cookie c = new Cookie("cart", txt);
         c.setMaxAge(24 * 2 * 60 * 60);
         response.addCookie(c);
+
         request.setAttribute("cart", cart);
         request.getRequestDispatcher("cart.jsp").forward(request, response);
+
     }
 
     /**
@@ -142,9 +143,11 @@ public class CartProcessServlet extends HttpServlet {
                 }
             }
         }
+
         String id = request.getParameter("id");
         String[] ids = txt.split("-");  //split danh sách mua hàng của người dùng thành 1 list
         String out = "";  // sau khi xóa thì để đống còn lại qua out
+
         for (int i = 0; i < ids.length; i++) {
             String[] s = ids[i].split(":");
             if (!s[0].equals(id)) {
@@ -161,8 +164,14 @@ public class CartProcessServlet extends HttpServlet {
             response.addCookie(cookie);
         }
         Cart cart = new Cart(out, list);
-        request.setAttribute("cart", cart);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+        if (cart.getItems().isEmpty()) {
+            request.setAttribute("", cart);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
+        } else {
+            request.setAttribute("cart", cart);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
+        }
+        
     }
 
     /**

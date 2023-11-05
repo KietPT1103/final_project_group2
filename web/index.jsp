@@ -22,184 +22,50 @@
     <body>
         <!--Header-->
         <%@ include file='./components/header.jsp' %>
-
         <div class="banner">
-            <div><img src="./assets/images/banner3.jpg" alt="Banner"/></div>
+            <img src="./assets/banner/Galaxy-S23-Series_KV_Product_2p_HI.jpg"/>
         </div>
 
-
         <!-- Feadtued Categories -->
-
         <div class="categories">
             <div class="small-container">
                 <div class="row">
                     <div class="col-3">
-                        <img src="./assets/images/category-1.jpg">
+                        <img src="./assets/picture_pro/img1.jpg">
                     </div>
                     <div class="col-3">
-                        <img src="./assets/images/category-2.jpg">
+                        <img src="./assets/picture_pro/img2.jpg">
                     </div>
                     <div class="col-3">
-                        <img src="./assets/images/category-3.jpg">
+                        <img src="./assets/picture_pro/71dHUyDrENL.SS800.jpg">
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Featured Products -->
-
         <div class="small-container">
-            <h2 class="title">Featured Products</h2>
+            <h2 class="title">
+                MOST OUTSTANDING PHONES</h2>
             <div class="row">
-                <div class="col-4">
-                    <a href="product_details.html"><img src="./assets/images/product-1.jpg"></a>
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-2.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-3.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-4.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
+                <c:forEach items="${requestScope.listPro}" var="p">
+                    <div class="col-4">                   
+                        <a href="product_details.html"><img src="./assets/picture_pro/${p.picture}"></a>
+                        <h4 style="font-weight: 800" >${p.name}</h4>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <p>Price: ${p.price}$</p>
+                    </div>              
+                </c:forEach>
             </div>
-            <h2 class="title">Latest Products</h2>
+
+            <h2 class="title"><a href="products">MORE</a></h2>
             <div class="row">
-                <div class="col-4">
-                    <img src="./assets/images/product-5.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-6.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-7.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-8.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <img src="./assets/images/product-9.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-10.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-11.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
-                <div class="col-4">
-                    <img src="./assets/images/product-12.jpg">
-                    <h4>Red Printed T-Shirt</h4>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p>$50.00</p>
-                </div>
+
             </div>
         </div>
 
@@ -226,53 +92,51 @@
             <div class="small-container">
                 <div class="row">
                     <div class="col-3">
-                        <i class="fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                            industry's standard dummy text.</p>
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
                         <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
                         </div>
-                        <img src="./assets/images/user-1.png">
-                        <h3>Sean Parker</h3>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Phạm Gia Tiến</h3>
                     </div>
                     <div class="col-3">
-                        <i class="fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                            industry's standard dummy text.</p>
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
                         <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
                         </div>
-                        <img src="./assets/images/user-2.png">
-                        <h3>Mike Smith</h3>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Nguyễn Lưu Minh Đức</h3>
                     </div>
                     <div class="col-3">
-                        <i class="fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                            industry's standard dummy text.</p>
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
                         <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
                         </div>
-                        <img src="./assets/images/user-3.png">
-                        <h3>Mabel Joe</h3>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Phạm Tuấn Thanh</h3>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
+                        <div class="rating">                       
+                        </div>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Phạm Tuấn Kiệt</h3>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
+                        <div class="rating">
+                        </div>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Vương Việt Văn</h3>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-check" style="color: #000000;font-size: 24px"></i>
+                        <div class="rating">          
+                        </div>
+                        <img src="./assets/banner/5087579.png">
+                        <h3>Tô Lý Mỹ</h3>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Brands -->
-
         <div class="brands">
             <div class="small-container">
                 <div class="row">

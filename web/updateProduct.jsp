@@ -32,7 +32,7 @@
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
+        <<link rel="stylesheet" href="./css/style.css"/>
         <!-- Template Stylesheet -->
         <link href="css/styleadmin.css" rel="stylesheet">
 
@@ -52,30 +52,35 @@
                 <!-- Navbar End -->
 
                 <!-- Recent Sales Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="form_input">
+                <div class="container_from-create update">
+                    <div class="form_input-create">
                         <h1>Update Product</h1>
                         <h5 style="color: red">${requestScope.error}</h5>
                         <c:set var="pro" value="${requestScope.pro}"/>
                         <form action="updateProduct" method="post" enctype="multipart/form-data">
-                            <h5>Enter ID: <input readonly value="${pro.id}" name="id" type="text" placeholder="your ID"></h5>
-                            <h5>Enter name: <input value="${pro.name}" name="name" type="text" placeholder="full name"></h5>
-                            <h5>Enter describe: <input value="${pro.description}" name="describe" type="text" placeholder="text"></h5>
-                            <h5>Enter price: <input value="${pro.price}" name="price" type="number" placeholder="text"></h5>
-                            <h5>Enter quantity: <input value="${pro.quantity}" name="quantity" type="number" placeholder="text"></h5>
-                            <h5>Enter picture: <input name="picture" type="file" placeholder="text"> <br> <img width="100px" height="100px" src="assets/picture_pro/${pro.picture}" alt="alt"/></h5>
-                            <h5>Enter Category:</h5>
-                            <select name="categoryItem">
-                                <c:forEach items="${requestScope.data}" var="cates" >
-                                    <option ${(pro.catergory.id eq cates.id)?"selected":""} value="${cates.id}">${cates.name}</option>
-                                </c:forEach>
-                            </select>
+                            <h5>Enter ID </h5><input readonly value="${pro.id}" name="id" type="text" placeholder="your ID">
+                            <h5>Enter name </h5><input value="${pro.name}" name="name" type="text" placeholder="full name">
+                            <h5>Enter describe </h5><input value="${pro.description}" name="describe" type="text" placeholder="text">
+                            <h5>Enter price </h5><input value="${pro.price}" name="price" type="number" placeholder="text">
+                            <h5>Enter quantity </h5><input value="${pro.quantity}" name="quantity" type="number" placeholder="text">
+                            <div class="row-create">
+                                <h5>Enter picture </h5><input name="picture" type="file" placeholder="text">
+                                <img src="assets/picture_pro/${pro.picture}" alt="alt"/>
+                            </div>
+                            <div class="row-create">
+                                <h5>Enter Category</h5>
+                                <select name="categoryItem" style="width: 200px;">
+                                    <c:forEach items="${requestScope.data}" var="cates" >
+                                        <option ${(pro.catergory.id eq cates.id)?"selected":""} value="${cates.id}">${cates.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                             <br/><!-- comment -->
-                            <input class="submit" type="submit" value="SAVE"/>
+                            <input class="submit-uP" type="submit" value="SAVE"/>
                         </form>
                     </div>
                     <div class="Back-button"> 
-                        <a class="Back-button-text" href="productmangement?id=all">Back</a>
+                        <a class="submit-create-back-u" href="productmangement?id=all">Back</a>
                     </div>
                 </div>
                 <!-- Recent Sales End -->

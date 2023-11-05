@@ -33,7 +33,7 @@
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
+        <<link rel="stylesheet" href="./css/style.css"/>
         <!-- Template Stylesheet -->
         <link href="css/styleadmin.css" rel="stylesheet">
 
@@ -51,54 +51,66 @@
                 <!-- Navbar Start -->
                 <%@ include file='admincomponents/adminuser.jsp' %>
                 <!-- Navbar End -->
-
                 <!-- Recent Sales Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="form_input">
-                        <h1>Add new Category</h1>
+                <div class="container_from-create">
+                    <div class="form_input-create">
+                        <h1>Add New Product</h1>
                         <h5 style="color: red">${requestScope.error}</h5>
                         <form action="createProduct" method="post" enctype="multipart/form-data">
-                            <h5>Enter ID: <input name="id" type="text" placeholder="your ID"></h5>
-                            <h5>Enter name: <input name="name" type="text" placeholder="full name"></h5>
-                            <h5>Enter describe: <input name="describe" type="text" placeholder="text"></h5>
-                            <h5>Enter price: <input name="price" type="number" placeholder="text"></h5>
-                            <h5>Enter quantity: <input name="quantity" type="number" placeholder="text"></h5>
-                            <h5>Enter picture: <input name="picture" type="file" placeholder="text"></h5>
-                            <h5>Enter Category:</h5>
-                            <select name="categoryItem">
-                                <c:forEach items="${requestScope.data}" var="cates" >
-                                    <option value="${cates.id}">${cates.name}</option>
-                                </c:forEach>
-                            </select>
-                            <br/><!-- comment -->
-                            <input class="submit" type="submit" value="SAVE"/>
-                        </form>
-                        <div class="Back-button"> 
-                            <a class="Back-button-text" href="productmangement?id=""">Back</a>
-                        </div>
+                            <div class="row-create">
+                                <h5>Product ID</h5><input name="id" type="text" placeholder="Product ID">
+                            </div>
+                            <div class="row-create">
+                                <h5>Product Name</h5><input name="name" type="text" placeholder="Full Name">
+                            </div>
+                            <div class="row-create">
+                                <h5>Product describe</h5></h5><input name="describe" type="text" placeholder="Describle">
+                            </div>
+                            <div class="row-create">
+                                <h5>Product Price</h5><input name="price" type="text" placeholder="Product Price">
+                            </div>
+                            <div class="row-create">
+                                <h5>Product Quantity</h5><input name="quantity" type="number" placeholder="Product Quantity"></h5>
+                            </div>
+                            <div class="row-create">
+                                <h5>Product Picture</h5><input class="create-option" name="picture" type="file" placeholder="image">
+                            </div>
+                            <div>
+                                <h5>Category Category</h5>                      
+                                <select  class="create-option" name="categoryItem">
+                                    <c:forEach items="${requestScope.data}" var="cates" >
+                                        <option  value="${cates.id}">${cates.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                    </div>
+                    <br/><!-- comment -->
+                    <input class="submit-create" type="submit" value="SAVE"/>
+                    </form>
+                    <div class="Back-button"> 
+                        <a  class="submit-create-back" class="Back-button-text" href="productmangement?id=""">Back</a>
                     </div>
                 </div>
-                <!-- Recent Sales End -->
             </div>
-            <!-- Content End -->
-
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+            <!-- Recent Sales End -->
         </div>
+        <!-- Content End -->
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/chart/chart.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>    
-    </body>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>    
+</body>
 </html>

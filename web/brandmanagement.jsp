@@ -53,38 +53,27 @@
             <!-- Sidebar Start 
             <%@ include file='admincomponents/adminheader.jsp' %>
             Sidebar End -->
-
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
                 <%@ include file='admincomponents/adminuser.jsp' %>
-                <!-- Navbar End -->
-
-                <!-- Sale & Revenue Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <a href="#">All</a>
-                        <a href="#">iphone</a>
-                    </div>
-                </div>
-                <!-- Sale & Revenue End -->
-
+                <!-- Navbar End -->              
                 <!-- Recent Sales Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">List of Category</h6>
-                            <a href="createCategory">Add new</a>
+                            <a  style="font-weight: 600" href="createCategory">Add New</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead>
-                                    <tr class="text-dark">
-                                        <th scope="col">Stt</th>
-                                        <th scope="col">cate_id</th>
-                                        <th scope="col">cate_name</th>
-                                        <th scope="col">cate_describe</th>
-                                        <th scope="col">insert</th>
+                                    <tr class="text-dark">  
+                                        <th class="center_item" scope="col">STT</th>
+                                        <th class="center_item" scope="col">ID</th>
+                                        <th class="center_item" scope="col">NAME</th>
+                                        <th class="center_item" scope="col">DESCRIBLE</th>
+                                        <th class="center_item" scope="col">INSEART</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,13 +81,13 @@
                                     <c:forEach items="${requestScope.data}" var="cates">
                                         <c:set var="count" value="${count+1}"/>
                                         <tr>
-                                            <td>${count}</td>
-                                            <td>${cates.id}</td>
-                                            <td>${cates.name}</td>
+                                            <td class="center_item" >${count}</td>
+                                            <td class="center_item" >${cates.id}</td>
+                                            <td class="center_item" >${cates.name}</td>
                                             <td>${cates.describe}</td>
-                                            <td>
+                                            <td class="Up_De" >
                                                 <a class="btn btn-sm btn-primary" href="updateCategory?id=${cates.id}">update</a>
-                                                <a class="btn btn-sm btn-primary" href="#" onclick="doDelete('${cates.id}')">Delete</a>
+                                                <a style="padding: 3px 10px;margin-top: 5px" class="btn btn-sm btn-primary" href="#" onclick="doDelete('${cates.id}')">Delete</a>
                                             </td>
                                         </tr> 
                                     </c:forEach>
