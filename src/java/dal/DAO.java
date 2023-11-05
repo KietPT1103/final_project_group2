@@ -186,8 +186,9 @@ public class DAO extends DBContext {
     }
 
     public void deleteAccount(String username) {
-        String sql = "DELETE FROM [dbo].[account]\n"
-                + "      WHERE [username] = ?";
+        String sql = "UPDATE [dbo].[account]\n"
+                + "   SET [role] = 3\n"
+                + " WHERE [username] = ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -303,14 +304,24 @@ public class DAO extends DBContext {
     }
 
     public void deleteCategory(String id) {
+        String sql1 = "DELETE FROM [dbo].[product]\n"
+                + "      WHERE [cate_id] = ?";
+        try {
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            st1.setString(1, id);
+            st1.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
         String sql = "DELETE FROM [dbo].[categories]\n"
                 + "      WHERE cate_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             st.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
     }
 

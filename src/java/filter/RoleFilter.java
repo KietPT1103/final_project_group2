@@ -17,6 +17,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -106,19 +107,22 @@ public class RoleFilter implements Filter {
         
         doBeforeProcessing(request, response);
         //begin
-//        HttpServletRequest req = (HttpServletRequest)request;
-//        HttpServletResponse res = (HttpServletResponse)response;
-//        HttpSession session = req.getSession();
-//        if(session.getAttribute("account")==null){
-//            res.sendRedirect("login");
-//        }else {
-//            Admin ad = (Admin)session.getAttribute("account");
-//            if(ad.getRole()==1){
-//                req.getRequestDispatcher("sell/seller.jsp").forward(request, response);
-//            }else {
-//                res.sendRedirect("dined");
-//            }
-//        }
+        HttpServletRequest req = (HttpServletRequest)request;
+        HttpServletResponse res = (HttpServletResponse)response;
+        HttpSession session = req.getSession();
+        
+        String url = req.getServletPath();
+        
+        if(session.getAttribute("account")==null){
+            res.sendRedirect("login");
+        }else {
+            Account ad = (Account)session.getAttribute("account");
+            if(ad.getRole()==1){
+                req.getRequestDispatcher(url).forward(request, response);
+            }else {
+                res.sendRedirect("errorPage");
+            }
+        }
         //end
         Throwable problem = null;
         try {
