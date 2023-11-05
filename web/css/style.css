@@ -40,13 +40,34 @@ p{
     padding-left: 25px;
     padding-right: 25px;
 }
+/*BANNER SIDDE*/
 
-.banner{
+.banner {
     width: 100%;
+    margin-top: 90.78px;
+    /*background-image: url('./assets/banner/Galaxy-S23-Series_KV_Product_2p_HI.jpg');*/
+    animation: change 10s infinite;
 }
 
-.banner img{
+.banner img {
     width: 100%;
+    height: auto;
+    animation: change 10s infinite;
+}
+
+@keyframes change {
+    0% {
+        background-image: url("./assets/banner/Galaxy-S23-Series_KV_Product_2p_HI.jpg");
+    }
+    33% {
+        background-image: url("./assets/banner/05dfdf76fe961c0c61e9fff49554467b.jpg");
+    }
+    66% {
+        background-image: url("./assets/banner/05dfdf76fe961c0c61e9fff49554467b.jpg");
+    }
+    100% {
+        background-image: url("./assets/banner/Galaxy-S23-Series_KV_Product_2p_HI.jpg");
+    }
 }
 
 .row{
@@ -82,12 +103,58 @@ p{
 }
 .header{
     background: #fff;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.1);
 }
 .header .row{
     margin-top: 70px;
 }
+/*Header link tag a*/
+.header__link {
+    font-size: 18px;
+    color: white;
+    transition: color .1s ease-in;
+}
+.header__link:hover {
+    color:#888;
+}
+.header__link-cart{
+    color: #fafafa ;
+    font-size: 26px ;
+    margin-bottom: 5px;
+}
+.header__link-cart:hover {
+    color:#888;
+    transition: color .1s ease-in;
+}
+
+/*Categories*/
 .categories{
     margin: 70px 0;
+}
+/* CSS FOR CATEGORIES */
+.categories .col-3 {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2)
+}
+
+.categories .col-3 img {
+    width: 100%;
+    transition: transform 0.5s;
+}
+
+.categories .col-3:hover {
+    transform: scale(1.2);
+}
+
+.categories .col-3:hover img {
+    transform: scale(1.2);
 }
 .col-3{
     flex-basis: 30%;
@@ -97,6 +164,8 @@ p{
 .col-3 img{
     width: 100%;
 }
+
+/*SMALL CONTAINER*/
 .small-container{
     max-width: 1080px;
     margin: auto;
@@ -113,12 +182,13 @@ p{
 .col-4 img{
     width: 100%;
 }
-.title{
+.small-container .title{
     text-align: center;
     margin: 0 auto 80px;
     position: relative;
     line-height: 60px;
     color: #555;
+    transition: transform .3s ease;
 }
 .title::after{
     content: '';
@@ -130,6 +200,9 @@ p{
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+}
+.small-container .title:hover {
+    transform: scale(1.1);
 }
 h4{
     color: #555;
@@ -155,6 +228,9 @@ h4{
 }
 small{
     color: #555;
+}
+.small-container {
+    margin-top: 140px;
 }
 
 /* Testimonial */
@@ -257,9 +333,12 @@ ul{
     text-align: center;
 }
 .menu-icon{
-    width: 28px;
+    font-size: 28px;
     margin-left: 20px;
     display: none;
+}
+.MenuItems>li a {
+    color: white;
 }
 
 /* All Products */
@@ -274,8 +353,15 @@ select{
 select:focus{
     outline: none;
 }
-.page-btn{
+.page-btn {
     margin: 0 auto 80px;
+    color: black;
+    text-align: center;
+    font-size: 16px;
+
+}
+.page-btn {
+
 }
 .page-btn span{
     display: inline-block;
@@ -291,10 +377,44 @@ select:focus{
     background: #ff523b;
     color: white;
 }
+.page-btn__a {
+    padding: 5px 10px;
+    color: rgba(0,0,0,.4);
+    border:2px;
+    margin: 0px 15px;
+}
+.page-btn__a:hover {
+    color:#ee4d2d;
+}
 
+.page-btn__a:first-child:hover {
+    opacity: 0.9;
+}
+.page-btn__chervo{
+    padding: 5px 25px;
+    color:rgba(0,0,0,.4);
+}
+
+.page-btn__a.active {
+    background-color: #ee4d2d;
+    color: white;
+}
+
+.lower_border {
+    border-bottom: 1px solid #555;
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+.boder3px {
+    border-radius: 3px;
+}
+.lower_border:hover {
+    transform: scale(1.1);
+    font-weight: 600;
+}
 /* Single Product */
 .single-product{
-    margin-top: 80px;
+    margin-top: 110px;
 }
 .single-product .col-2 img{
     padding: 0;
@@ -339,7 +459,30 @@ input:focus{
 
 /* Cart Items */
 .cart-page{
-    margin: 80px auto;
+    margin: 200px auto;
+
+}
+.cart-page__item th {
+    padding:  16px;
+    border-radius:1px;
+}
+.cart-button a,
+.cart-button {
+    padding: 2px 5px;
+    font-size: 18px;
+}
+.cart-button a:nth-child(1) {
+    margin-right: 6px;
+}
+.cart-button a:nth-child(2) {
+    margin-left: 6px;
+}
+.no-cart td img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    position: relative;
+    top: -120px;
 }
 table{
     width: 100%;
@@ -382,6 +525,9 @@ td img{
     width: 100%;
     max-width: 400px;
 }
+.input__cart {
+    width: auto;
+}
 td:last-child{
     text-align: right;
 }
@@ -394,6 +540,7 @@ th:last-child{
     padding: 50px 0;
     background: url(../assets/images/banner.jpg);
     background-size: cover;
+    margin-top: 90px;
 }
 .form-container{
     background: #fff;
@@ -541,9 +688,6 @@ form a{
         display: block;
         cursor: pointer;
     }
-
-
-
 }
 
 /* Media query for 600 screen size */
@@ -595,10 +739,10 @@ form a{
 }
 .select-input__list {
     position: absolute;
-    top: 80%;
+    top: 115%;
     right: 0;
     width: 100%;
-    background-color: rgba(0,0,0,0.04);
+    background-color: white;
     border-radius: 2px;
     padding-left:0;
     list-style: none;
@@ -619,9 +763,12 @@ form a{
     font-size: 1.0rem;
 }
 .select-input {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: white;
     width: 150px;
     height: 34px;
+}
+.selec-input__item {
+    z-index: 2;
 }
 .header__select-select-icon {
     margin: 0 4px;
@@ -633,9 +780,16 @@ form a{
     color: #4a4a4a;
     margin: 0 12px 0 8px;
 }
+.logo img {
+    transition : transform 0.3s;
+}
+.logo img:hover {
+    transform: scale(1.4);
+}
 
 /*history table*/
 .table-container {
+    position: relative;
     max-height: 600px;
     overflow-y: auto;
 }
@@ -672,4 +826,126 @@ form a{
     position: sticky;
     top: -2px;
     background-color: #ffffff;
+}
+.row-2 {
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px;
+}
+.row-2 h1 {
+    font-family: serif;
+    padding-left: 10px;
+}
+
+.center_item{
+    text-align: center;
+}
+
+.container_from-create {
+    position: relative;
+    background-color: #222;
+    min-height: 85vh;
+    animation: slideIn 2s; /* 2s là thời gian của animation */
+    animation-delay: 0; /* 1s là khoảng thời gian trễ trước khi animation bắt đầu */
+}
+.form_input-create h1{
+    width: 100%;
+    font-size: 70px;
+    color: white;
+    text-align: right;
+    padding: 10px 20px;
+    font-family: serif ;
+    margin: 0;
+}
+.form_input-create h5{
+    padding: 8px 20px;
+    color: #808080;
+    font-size: 22px;
+    min-width: 30%;
+    display: inline-block;
+    font-family: inherit;
+}
+.form_input-create input {
+    width: 62%;
+    height: 32px;
+    padding: 4px 20px;
+    border-radius: 5px;
+    border: 0;
+}
+.form_input-create select{
+    margin-left: 15px;
+    border-radius: 1px solid black;
+}
+.row-create {
+
+}
+.submit-long:hover {
+    color: #60b2fe ;
+}
+
+.create-option {
+    width: 300px;
+}
+.submit-create {
+    font-size: bold;
+    padding: 6px 30px;
+    float: right;
+    margin-right: 10%;
+    box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.05);
+}
+.submit-create-back {
+    background-color: white;
+    color: black;
+    font-size: bold;
+    padding: 6px 30px;
+    float: left;
+    margin-left: 6px;
+    box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.05);
+    margin-top: 5%;
+}
+.submit-create:hover {
+    background-color: black;
+    color:white;
+    border :0 ;
+}
+.back-admin:hover {
+    color:#60b2fe !important;
+    border-color: #60b2fe;
+}
+.row-create img {
+    float: right;
+    width: 200px;
+    height: 200px;
+    margin : 8px 80px ;
+    object-fit: cover ;
+    position: relative;
+}
+.container_from-create.update {
+    min-height: 100vh;
+}
+.submit-uP {
+    margin: 5% 2px;
+}
+.submit-uP:hover {
+    background-color: #fafafa ;
+    color :#60b2fe;
+}
+.submit-create-back-u {
+    color: white;
+    border-bottom: 1px solid white;
+    margin-left: 10px;
+}
+
+@keyframes slideIn{
+    from {
+        transform: translateX(-70%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

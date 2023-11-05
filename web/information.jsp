@@ -112,11 +112,11 @@
                                             <thead class="table-header">
                                                 <tr>
                                                     <th>ID Order</th>
-                                                    <th>Product</th>
+                                                    <th style="text-align: center">Product</th>
                                                     <th>Product Picture</th>
                                                     <th>Quantity</th>
-                                                    <th>Price</th>
-                                                    <th>Date</th>
+                                                    <th style="text-align: center">Price</th>
+                                                    <th style="text-align: center">Date</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -131,7 +131,7 @@
                                                         <td>${i.quantity}</td>
                                                         <td>$<fmt:formatNumber pattern="##.##" value="${(i.price * i.quantity)}"/></td>
                                                         <td>${i.date}</td>
-                                                        <td><a href="productsdetail?id=${i.product.id}">See product</a></td>
+                                                        <td><a href="productsdetail?id=${i.product.id}">See product</a></td>                                                       
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>

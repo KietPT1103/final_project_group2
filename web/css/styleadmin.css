@@ -284,3 +284,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.center_item{
+    text-align: center;
+}
+.Up_De{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.lower_border{
+    border-bottom: 1px solid black;
+}
+
+.text-dark a:hover {
+    transform: scale(1.2);
+}

@@ -32,7 +32,7 @@
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
+        <<link rel="stylesheet" href="./css/style.css"/>
         <!-- Template Stylesheet -->
         <link href="css/styleadmin.css" rel="stylesheet">
 
@@ -53,19 +53,21 @@
                 <!-- Navbar End -->
 
                 <!-- Recent Sales Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <h1>Register</h1>
-                    <form id="RegForm" action="insertAdmin" method="post">
-                        <input class="input-form" type="text" placeholder="Full name" name="fullName">
-                        <input class="input-form" type="email" placeholder="Email" name="userName">
-                        <input class="input-form" type="number" placeholder="Phone number" name="phone">
-                        <input class="input-form" type="text" placeholder="Address" name="address">
-                        <input class="input-form" type="password" placeholder="Password" name="password">
-                        <input class="input-form" type="password" placeholder="Re-enter your Password" name="rePassword">
-                        <button type="submit" class="btn">Register</button>
-                        <p style="color: red">${requestScope.error}</p>
-                    </form>
-                    <a href="accountManagement">Back</a>
+                <div class="container_from-create">
+                    <div class="form_input-create">
+                        <h1>Register</h1>
+                        <form id="RegForm" action="insertAdmin" method="post">
+                            <h5>Full Name</h5> <input class="input-form" type="text" placeholder="Full name" name="fullName">
+                            <h5>User Name</h5> <input class="input-form" type="email" placeholder="Email" name="userName">
+                            <h5>Phone Number</h5> <input class="input-form" type="number" placeholder="Phone number" name="phone">
+                            <h5>Address</h5> <input class="input-form" type="text" placeholder="Address" name="address">
+                            <h5>Pass Word</h5> <input class="input-form" type="password" placeholder="Password" name="password">
+                            <h5>Re-Pass Word</h5> <input class="input-form" type="password" placeholder="Re-enter your Password" name="rePassword">
+                            <button type="submit" class="btn">Register</button>
+                            <p style="color: red">${requestScope.error}</p>
+                        </form>
+                        <a class="back-admin" href="accountManagement" style="font-size: 20px ; border-bottom: 1px solid white ; color : white ; padding: 0 12px;">Back</a>
+                    </div>
                 </div>
                 <!-- Recent Sales End -->
             </div>

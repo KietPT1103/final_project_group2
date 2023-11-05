@@ -63,25 +63,23 @@ public class DeleteProductServlet extends HttpServlet {
         String id = request.getParameter("id");
         DAO dao = new DAO();
         Product pro = dao.getProductById(id);
-
         // delete file 
         String fileName = pro.getPicture();
         String deletePath = getServletContext().getRealPath("assets/picture_pro/") + File.separator + fileName;
         File fileToDelete = new File(deletePath);
         try {
             if (fileToDelete.exists()) {
-                    if (fileToDelete.delete()) {
-                        System.out.println("File deleted successfully.");
-                    } else {
-                        System.out.println("Failed to delete file.");
-                    }
+                if (fileToDelete.delete()) {
+                    System.out.println("File deleted successfully.");
                 } else {
-                    System.err.println("File does not exist.");
+                    System.out.println("Failed to delete file.");
                 }
+            } else {
+                System.err.println("File does not exist.");
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
-        
         dao.deleteProduct(id);
         response.sendRedirect("productmangement?id=");
     }

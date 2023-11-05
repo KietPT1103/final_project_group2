@@ -31,7 +31,6 @@ Author     : ADMIN
         <%@ include file='./components/header.jsp' %>
 
         <div class="small-container">
-
             <form action="Search?index=1" method="POST">
                 <input value="${save}" type="text" name="search" placeholder="Searching..." id="searchBox" class="searchBox"/>
                 <button type="submit" class="searchBtn">
@@ -40,7 +39,7 @@ Author     : ADMIN
             </form>
 
             <div class="row row-2">
-                <h2>All Products</h2>               
+                <h1>All</h1>               
                 <div class="select-input">
                     <span class="select-input__label">Giá</span>
                     <i class="header__select-select-icon fa-solid fa-chevron-down"></i>
@@ -70,20 +69,38 @@ Author     : ADMIN
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <p>$<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
+                            <p>Price: $<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
                         </a>
                     </div> 
                 </c:forEach>   
             </div>
             <c:set var="so" value="${requestScope.sort}"/>
+            
             <div class="page-btn">
-                <c:forEach  begin="1" end="${end}" var="i">
-                    <a href="Search?index=${i}&sort=${so}&search=${save}">${i}</a>
+                <a href="#"><i class="page-btn__chervo fa-solid fa-chevron-left"></i></a>
+                    <c:forEach  begin="1" end="${end}" var="i">
+                    <a class="page-btn__a" href="Search?index=${i}&sort=${so}&search=${save}">${i}</a>
                 </c:forEach>
                 <!--                <span>&#8594;</span>-->
+                <a href="#"><i class="page-btn__chervo fa-solid fa-chevron-right"></i></a>
             </div>
+
+
         </div>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const pageNumbers = document.querySelectorAll('.page-btn__a');
+                pageNumbers.forEach(function (pageNumber) {
+                    pageNumber.addEventListener('click', function () {
+                        pageNumbers.forEach(function (el) {
+                            el.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    });
+                });
+            });
+        </script>
         <script>
             function show() {
                 var sort = document.getElementById("Sort");
@@ -91,7 +108,5 @@ Author     : ADMIN
                 listItems.style.display = "block";
             }
         </script>
-
-
         <!-- Footer -->
         <%@ include file='./components/footer.jsp' %>

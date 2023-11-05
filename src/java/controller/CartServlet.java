@@ -34,6 +34,7 @@ public class CartServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         DAO db = new DAO();
         List<Product> list = db.getAll();
         Cookie[] arr = request.getCookies();
@@ -47,6 +48,7 @@ public class CartServlet extends HttpServlet {
                 }
             }
         }
+
         Cart cart = new Cart(txt, list);
         Cookie c = new Cookie("cart", txt);
         c.setMaxAge(24 * 2 * 60 * 60);
@@ -93,5 +95,4 @@ public class CartServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

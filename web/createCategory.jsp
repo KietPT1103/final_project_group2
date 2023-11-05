@@ -33,7 +33,7 @@
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
+        <<link rel="stylesheet" href="./css/style.css"/>
         <!-- Template Stylesheet -->
         <link href="css/styleadmin.css" rel="stylesheet">
 
@@ -53,18 +53,22 @@
                 <!-- Navbar End -->
 
                 <!-- Recent Sales Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="form_input">
+                <div class="container_from-create">
+                    <div class="form_input-create">
                         <h1>Add new Category</h1>
                         <h5 style="color: red">${requestScope.error}</h5>
                         <form action="createCategory" method="post">
-                            <h5>Enter ID: <input name="id" type="number" placeholder="your ID"></h5>
-                            <h5>Enter name: <input name="name" type="text" placeholder="full name"></h5>
-                            <h5>Enter describe: <input name="describe" type="text" placeholder="text"></h5>
-                            <input class="submit" type="submit" value="SAVE"/>
+                            <div class="row-create">
+                                <h5>Enter ID </h5><input name="id" type="number" placeholder="your ID">
+                            </div>
+                            <div class="row-create">
+                                <h5>Enter name </h5><input name="name" type="text" placeholder="full name"></h5>
+                            </div>
+                            <h5>Enter describe </h5><input name="describe" type="text" placeholder="text"></h5>
+                            <input style="margin: 10% 0 0 30%" class="submit-long" type="submit" value="SAVE"/>
                         </form>
                         <div class="Back-button"> 
-                            <a class="Back-button-text" href="brandmanagement">Back</a>
+                            <a class="submit-create-back" href="brandmanagement">Back</a>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@
         <div class="navbar-nav w-100">
             <a href="admin" class="nav-item nav-link active"><i class="fa-solid fa-house"></i>Home</a>
             <a href="brandmanagement" class="nav-item nav-link"><i class="fa-solid fa-warehouse"></i>brand management</a>
-            <a href="productmangement?id=""" class="nav-item nav-link"><i class="fa-solid fa-list-check"></i>Product Management</a>
+            <a href="productmangement?id=" class="nav-item nav-link"><i class="fa-solid fa-list-check"></i>Product Management</a>
             <a href="accountManagement" class="nav-item nav-link"><i class="fa-solid fa-user-gear"></i>account management</a>
             <a href="orderManagement" class="nav-item nav-link"><i class="fa-brands fa-first-order-alt"></i>order management</a>
             <a href="home" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Shopping</a>
@@ -36,6 +36,9 @@
                     <a href="404.html" class="dropdown-item">404 Error</a>
                     <a href="blank.html" class="dropdown-item">Blank Page</a>
                 </div>
+            </div>
+            <div class="refresh">
+                <a href="#" class="nav-item nav-link"><i class="fa-solid fa-arrows-rotate"></i>REFRESH</a>
             </div>
         </div>
     </nav>

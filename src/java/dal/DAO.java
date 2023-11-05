@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import model.Account;
 import model.Cart;
 import model.Product;
@@ -530,6 +531,41 @@ public class DAO extends DBContext {
         try {
             String sql = "SELECT TOP 4 * FROM [product] ORDER BY NEWID()";
             PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getString("pro_id"));
+                p.setName(rs.getString("pro_name"));
+                p.setDescription(rs.getString("pro_description"));
+                p.setPrice(rs.getLong("pro_price"));
+                p.setQuantity(rs.getInt("pro_quantity"));
+                p.setPicture(rs.getString("pro_picture"));
+                Category cate = getCateById(rs.getString("cate_id"));
+                p.setCatergory(cate);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
+        return list;
+    }
+
+    /**
+     * Hàm lấy ra ngẫu nhiên 4 sản phẩm trong danh sách product theo 1 cid nào
+     * đó ví dụ : của iphone thì sẽ là 4 product random from iphone ...
+     *
+     * @param id id do người dùng nhập vào
+     * @return list các product có cùng cate_id
+     */
+    public List<Product> getRandomProductByCid(String cid) {
+        List<Product> list = new ArrayList<>();
+        List<Product> randomList = new ArrayList<>();
+        Random r = new Random();
+        try {
+            String sql = "SELECT TOP 4 * FROM [product] Where cate_id = ?\n"
+                    + "ORDER BY NEWID() ";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, cid);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
