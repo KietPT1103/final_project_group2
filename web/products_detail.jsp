@@ -43,40 +43,43 @@
                     <h3>Product Details <i class="fa fa-indent"></i></h3>
                     <br>
                     <p>${b.description}</p>
-                </div>              
+                    <c:if test="${requestScope.notifition != null}">
+                        <h2 style="color: green">${requestScope.notifition}</h2>
+                    </c:if>
+                    </div>              
 
+                </div>
             </div>
-        </div>
 
-        <!-- title -->
-        <div class="small-container">
-            <div class="row row-2">
-                <h2>Order Products</h2>
-                <a href="products">View More</a>
+            <!-- title -->
+            <div class="small-container">
+                <div class="row row-2">
+                    <h2>Order Products</h2>
+                    <a href="products">View More</a>
+                </div>
             </div>
-        </div>
-        <!-- Products -->
-        <div class="small-container">
-            <div class="row">
-                <c:forEach items="${requestScope.random}" var="a">
-                    <c:set value="${a.id}" var="id"/>
-                    <div class="col-4">
-                        <a href="productsdetail?id=${id}">
-                            <img src="./assets/picture_pro/${a.picture}">
-                            <h4>${a.name}</h4>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <p>$<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
-                        </a>
-                    </div> 
-                </c:forEach> 
+            <!-- Products -->
+            <div class="small-container">
+                <div class="row">
+                    <c:forEach items="${requestScope.random}" var="a">
+                        <c:set value="${a.id}" var="id"/>
+                        <div class="col-4">
+                            <a href="productsdetail?id=${id}">
+                                <img src="./assets/picture_pro/${a.picture}">
+                                <h4>${a.name}</h4>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <p>$<fmt:formatNumber pattern="##.#" value="${a.price}"/></p>
+                            </a>
+                        </div> 
+                    </c:forEach> 
+                </div>
             </div>
-        </div>
 
-        <!-- Footer -->
-        <%@ include file='./components/footer.jsp' %>
+            <!-- Footer -->
+            <%@ include file='./components/footer.jsp' %>

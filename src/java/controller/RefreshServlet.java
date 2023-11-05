@@ -5,23 +5,24 @@
 package controller;
 
 import dal.DAO;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
-import model.Product;
+import model.Order;
 
 /**
  *
- * @author ADMIN
+ * @author LENOVO
  */
-@WebServlet(name = "BuyServlet", urlPatterns = {"/buy"})
-public class BuyServlet extends HttpServlet {
+@WebServlet(name = "RefreshServlet", urlPatterns = {"/refresh"})
+public class RefreshServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,39 +35,22 @@ public class BuyServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO db = new DAO();
-        List<Product> list = db.getAll();
-        Cookie[] arr = request.getCookies();
-        String txt = "";
-        if (arr != null) {
-            for (Cookie o : arr) {
-                if (o.getName().equals("cart")) {   //Tìm cookie có tên = với cart
-                    txt += o.getValue(); //khi thêm sp mới vào, thì lôi sp cũ ra thêm vào file txt   
-                    o.setMaxAge(0); // sau khi thêm thì xóa cookie cũ
-                    response.addCookie(o);
-                }
-            }
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RefreshServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RefreshServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        String num = "1";
-        String id = request.getParameter("id");    //Lấy id sp
-        if (txt.isEmpty()) {
-            txt = id + ":" + num;
-        } else {
-            txt = txt + "-" + id + ":" + num;
-        }
-
-        Product p = db.getProductById(id);
-
-        Cookie cookie = new Cookie("cart", txt);
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        response.addCookie(cookie);
-
-        request.setAttribute("notifition", "successfully added to cart");
-        request.setAttribute("p", p);
-        request.getRequestDispatcher("productsdetail").forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -78,7 +62,17 @@ public class BuyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        DAO dao = new DAO();
+
+        List<Order> listOrder;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("listOrder") == null) {
+            listOrder = new ArrayList<Order>();
+        } else {
+            listOrder = (List<Order>) session.getAttribute("listOrder");
+        }
+        session.setAttribute("listOrder", listOrder);
+        response.sendRedirect("orderManagement");
     }
 
     /**
@@ -93,7 +87,6 @@ public class BuyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

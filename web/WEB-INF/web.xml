@@ -11,11 +11,26 @@
 
     <filter-mapping>
         <filter-name>RoleFilter</filter-name>
-        <url-pattern></url-pattern>
+        <url-pattern>/admin</url-pattern>
+        <url-pattern>/brandmanagement</url-pattern>
+        <url-pattern>/productmangement</url-pattern>
+        <url-pattern>/accountManagement</url-pattern>
+        <url-pattern>/orderManagement</url-pattern>
+        <url-pattern>/createCategory</url-pattern>
+        <url-pattern>/updateCategory</url-pattern>
+        <url-pattern>/deleteCategory</url-pattern>
+        <url-pattern>/createProduct</url-pattern>
+        <url-pattern>/updateProduct</url-pattern>
+        <url-pattern>/deleteProduct</url-pattern>
+        <url-pattern>/deleteAccount</url-pattern>
+        <url-pattern>/insertAdmin</url-pattern>
+        <url-pattern>/orderDetailManagement</url-pattern>
+        <url-pattern>/viewOrderDetail</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern></url-pattern>
+        <url-pattern>/buy</url-pattern>
+        <url-pattern>/Cart</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>HomeFilter</filter-name>
