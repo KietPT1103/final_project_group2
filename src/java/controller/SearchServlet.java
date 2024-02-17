@@ -64,7 +64,7 @@ public class SearchServlet extends HttpServlet {
             }else if(sort.equals("desc")){
                 listSearch = db.searchDesc(txtSearch, index, pageSize);
             }else{             
-                listSearch = db.search(txtSearch, index, pageSize);
+                listSearch = db.search(txtSearch, 1, pageSize);
             }           
             
             request.setAttribute("save", txtSearch);

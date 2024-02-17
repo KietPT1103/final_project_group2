@@ -31,7 +31,7 @@ Author     : ADMIN
         <%@ include file='./components/header.jsp' %>
 
         <div class="small-container">
-            <form action="Search?index=1" method="POST">
+            <form action="Search?index=1&sort=asc" method="POST">
                 <input value="${save}" type="text" name="search" placeholder="Searching..." id="searchBox" class="searchBox"/>
                 <button type="submit" class="searchBtn">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -75,7 +75,7 @@ Author     : ADMIN
                 </c:forEach>   
             </div>
             <c:set var="so" value="${requestScope.sort}"/>
-            
+
             <div class="page-btn">
                 <a href="#"><i class="page-btn__chervo fa-solid fa-chevron-left"></i></a>
                     <c:forEach  begin="1" end="${end}" var="i">
